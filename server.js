@@ -10,6 +10,6 @@ app.use(express.json());
 app.use("/api/v1/categories", categoryRoute);
 app.use("/api/v1/articles", articleRoute);
 
-app.listen(3000, () => {
+app.listen(5000, () => {
     console.log("Server created successfully");
 });
