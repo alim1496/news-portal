@@ -1,12 +1,26 @@
-import logo from './logo.svg';
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+} from "react-router-dom";
 import './App.css';
+import Navbar from './components/Navbar';
+import AddArticle from "./pages/AddArticle";
+import Articles from "./pages/Articles";
+import Categories from "./pages/Categories";
+import Dashboard from "./pages/Dashboard";
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <h1>Hello World</h1>
-      <p>This is my first react code. I will make a beautiful project.</p>
-    </div>
+    <BrowserRouter>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={ <Dashboard />} />
+        <Route path="/articles" element={ <Articles />} />
+        <Route path="/add/article" element={ <AddArticle />} />
+        <Route path="/categories" element={ <Categories />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 
