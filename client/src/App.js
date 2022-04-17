@@ -12,7 +12,7 @@ import Dashboard from "./pages/Dashboard";
 
 const App = () => {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/admin">
       <Navbar />
       <Routes>
         <Route path="/" element={ <Dashboard />} />
