@@ -9,6 +9,7 @@ import AddArticle from "./pages/AddArticle";
 import Articles from "./pages/Articles";
 import Categories from "./pages/Categories";
 import Dashboard from "./pages/Dashboard";
+import Videos from "./pages/Videos";
 
 const App = () => {
   return (
@@ -19,6 +20,7 @@ const App = () => {
         <Route path="/articles" element={ <Articles />} />
         <Route path="/add/article" element={ <AddArticle />} />
         <Route path="/categories" element={ <Categories />} />
+        <Route path="/videos" element={ <Videos />} />
       </Routes>
     </BrowserRouter>
   );
