@@ -10,7 +10,6 @@ CategoryRouter.get("/", (req, res) => {
 });
 
 CategoryRouter.post("/", (req, res) => {
-    console.log(req.body);
     connection.query('insert into category (name) values (?)', [req.body.name], (error, result) => {
         if(error) res.json({ "Error": error });
         else res.status(201).json({ "message": result });
