@@ -27,7 +27,7 @@ const Login = () => {
 
     return (
         <div className="flex items-center justify-center min-h-screen bg-gray-100">
-            <div className="px-10 py-10 bg-white shadow-lg rounded-lg w-1/2">
+            <div className="px-10 py-10 bg-white shadow-lg rounded-lg w-1/4">
                 <h1 className="font-medium text-xl text-center mb-6">Login to Admin Panel</h1>
                 <form>
                     <input type="text" onChange={e => setEmail(e.target.value)} value={email} placeholder="Email" className="border bg-gray-200 rounded-lg block mb-4 px-2 py-2 w-full" />
