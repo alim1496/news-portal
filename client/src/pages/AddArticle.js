@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import Auth from "../utils/auth";
 
 const AddArticle = () => {
     const [categories, setCategories] = useState([]);
@@ -10,7 +11,9 @@ const AddArticle = () => {
     const [featured, setFeatured] = useState(false);
 
     useEffect(() => {
-        fetch("http://localhost:5000/api/v1/categories")
+        fetch("http://localhost:5000/api/v1/categories", {
+            headers: { "Authorization": `Bearer ${Auth.getToken()}` }
+        })
         .then(res => res.json())
         .then(res => setCategories(res.data));
     }, []);
@@ -22,7 +25,7 @@ const AddArticle = () => {
         };
         fetch("http://localhost:5000/api/v1/articles", {
             method: "POST",
-            headers: {'Content-Type': 'application/json'},
+            headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${Auth.getToken()}`},
             body: JSON.stringify(data)
         })
         .then(res => res.json())

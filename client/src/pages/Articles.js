@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import TimeAgo from "react-timeago";
+import Auth from "../utils/auth";
 
 const Articles = () => {
     const [articles, setArticles] = useState([]);
@@ -9,7 +10,9 @@ const Articles = () => {
     }, []);
 
     const fetchData = () => {
-        fetch("http://localhost:5000/api/v1/articles")
+        fetch("http://localhost:5000/api/v1/articles", {
+            headers: { "Authorization": `Bearer ${Auth.getToken()}` }
+        })
         .then(res => res.json())
         .then(res => setArticles(res.data));
     };
@@ -17,7 +20,8 @@ const Articles = () => {
     const deleteData = (id) => {
         if(!window.confirm("Do you want to delete it?")) return;
         fetch(`http://localhost:5000/api/v1/articles/${id}`, {
-            method: "DELETE"
+            method: "DELETE",
+            headers: { "Authorization": `Bearer ${Auth.getToken()}` }
         })
         .then(res => res.json())
         .then(res => {

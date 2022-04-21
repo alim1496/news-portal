@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import TimeAgo from "react-timeago";
+import Auth from "../utils/auth";
 
 const Videos = () => {
     const [videos, setVideos] = useState([]);
@@ -11,7 +12,9 @@ const Videos = () => {
     }, []);
 
     const fetchData = () => {
-        fetch("http://localhost:5000/api/v1/videos")
+        fetch("http://localhost:5000/api/v1/videos", {
+            headers: { "Authorization": `Bearer ${Auth.getToken()}` }
+        })
         .then(res => res.json())
         .then(res => setVideos(res.data));
     };
@@ -21,7 +24,7 @@ const Videos = () => {
 
         fetch("http://localhost:5000/api/v1/videos", {
             method: "POST",
-            headers: {'Content-Type': 'application/json'},
+            headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${Auth.getToken()}`},
             body: JSON.stringify({ title, link })
         })
         .then(res => res.json())
@@ -35,7 +38,8 @@ const Videos = () => {
     const deleteData = (id) => {
         if(!window.confirm("Do you want to delete it?")) return;
         fetch(`http://localhost:5000/api/v1/videos/${id}`, {
-            method: "DELETE"
+            method: "DELETE",
+            headers: { "Authorization": `Bearer ${Auth.getToken()}` }
         })
         .then(res => res.json())
         .then(res => {

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import Auth from "../utils/auth";
 
 const Categories = () => {
     const [categories, setCategories] = useState([]);
@@ -9,7 +10,9 @@ const Categories = () => {
     }, []);
 
     const fetchData = () => {
-        fetch("http://localhost:5000/api/v1/categories")
+        fetch("http://localhost:5000/api/v1/categories", {
+            headers: { "Authorization": `Bearer ${Auth.getToken()}` }
+        })
         .then(res => res.json())
         .then(res => setCategories(res.data));
     };
@@ -19,7 +22,7 @@ const Categories = () => {
 
         fetch("http://localhost:5000/api/v1/categories", {
             method: "POST",
-            headers: {'Content-Type': 'application/json'},
+            headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${Auth.getToken()}` },
             body: JSON.stringify({ name: category })
         })
         .then(res => res.json())

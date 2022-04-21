@@ -1,10 +1,11 @@
 import {
   BrowserRouter,
   Routes,
-  Route,
+  Route
 } from "react-router-dom";
 import './App.css';
 import Navbar from './components/Navbar';
+import ProtectedRoute from "./components/ProtectedRoute";
 import AddArticle from "./pages/AddArticle";
 import Articles from "./pages/Articles";
 import Categories from "./pages/Categories";
@@ -15,24 +16,27 @@ import Auth from "./utils/auth";
 
 const App = () => {
   return (
-    <BrowserRouter basename="/admin">
-      {Auth.isUserAuthenticated() 
-      ?(
-        <>
-          <Navbar />
-          <Routes>
-            <Route path="/" element={ <Dashboard />} />
-            <Route path="/articles" element={ <Articles />} />
-            <Route path="/add/article" element={ <AddArticle />} />
-            <Route path="/categories" element={ <Categories />} />
-            <Route path="/videos" element={ <Videos />} />
-          </Routes>
-        </>
-      )
-      : <Login /> 
-      }
-      
-    </BrowserRouter>
+      <BrowserRouter basename="/admin">
+        {Auth.isUserAuthenticated() && <Navbar />}
+        <Routes>
+          <Route path="/login" element={ <Login />} />
+          <Route path="/" exact element={<ProtectedRoute />}>
+            <Route path="/" exact element={ <Dashboard />} />
+          </Route>
+          <Route path="/" exact element={<ProtectedRoute />}>
+            <Route path="/articles" exact element={ <Articles />} />
+          </Route>
+          <Route path="/" exact element={<ProtectedRoute />}>
+            <Route path="/add/article" exact element={ <AddArticle />} />
+          </Route>
+          <Route path="/" exact element={<ProtectedRoute />}>
+            <Route path="/categories" exact element={ <Categories />} />
+          </Route>
+          <Route path="/" exact element={<ProtectedRoute />}>
+            <Route path="/videos" exact element={ <Videos />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
   );
 }
 

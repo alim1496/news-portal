@@ -18,7 +18,7 @@ const Login = () => {
             const { Error, message, token } = res;
             if(!Error) {
                 Auth.authenticateUser(token);
-                window.location.reload();
+                window.location = "/admin";
             } else {
                 alert(Error);
             }
