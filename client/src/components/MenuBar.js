@@ -11,7 +11,7 @@ const MenuBar = () => {
     }, []);
 
     return (
-        <div className="bg-white text-center py-2">
+        <div id="menu-bar" className="bg-white text-center py-2">
             <h1 className="font-bold font-mono text-3xl">
                 <Link to="/">আজকের খবর</Link>
             </h1>
@@ -19,7 +19,7 @@ const MenuBar = () => {
             <div className="flex justify-center">
                 {categories && categories.map((cat, index) => (
                     <span className="mr-4" key={index}>
-                        <Link className="font-semibold font-mono hover:text-blue-700" to={`/category/${cat.id}/${cat.name}`}>{cat.name}</Link>
+                        <Link className="font-medium font-mono hover:text-blue-700" to={`/category/${cat.id}/${cat.name}`}>{cat.name}</Link>
                     </span>
                 ))}
             </div>

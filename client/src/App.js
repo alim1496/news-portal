@@ -26,7 +26,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={ <Home />} />
           <Route path="/category/:catID/:catName" element={ <CategoryArticles /> } />
-          <Route path="/article/:articleID" element={ <SingleArticle /> } />
+          <Route path="/article/:articleID/:articleTitle" element={ <SingleArticle /> } />
           <Route path="/admin/login" element={ <Login />} />
           <Route path="/admin" exact element={<ProtectedRoute />}>
             <Route path="/admin" exact element={ <Dashboard />} />

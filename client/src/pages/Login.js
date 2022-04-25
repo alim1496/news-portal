@@ -1,9 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Auth from "../utils/auth";
 
 const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+
+    useEffect(() => {
+        document.querySelector("#menu-bar").style.display = 'none';
+        return () => {
+            document.querySelector("#menu-bar").style.display = 'block';
+        };
+    }, []);
 
     const doLogin = () => {
         if(!email || !password) return;

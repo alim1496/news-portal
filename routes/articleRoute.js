@@ -48,4 +48,29 @@ ArticleRouter.get("/single/:id", (req, res) => {
         });
 });
 
+ArticleRouter.get("/similar/:id", (req, res) => {
+    connection.query(
+        'select id, title, cover from article where id <> ? and category_id = ? order by rand() limit 5',
+        [req.query.excl, req.params.id], (error, result) => {
+            if(error) res.json({ "Error": error });
+            else res.status(200).json({ "data": result });
+        });
+});
+
+ArticleRouter.get("/feed", (req, res) => {
+    let sql = "select id, title, cover, published from article where category_id = 7 order by published desc limit 5;";
+    sql += "select id, title, cover, published from article where category_id = 1 order by published desc limit 5;";
+    sql += "select id, title, cover, published from article where category_id = 4 order by published desc limit 5;";
+    sql += "select id, title, cover, published from article where category_id = 2 order by published desc limit 5;";
+    sql += "select id, title, cover, published from article where category_id = 5 order by published desc limit 5;";
+    sql += "select id, title, cover, published from article where category_id = 8 order by published desc limit 5;";
+    sql += "select id, title, cover, published from article where category_id = 6 order by published desc limit 5;";
+    sql += "select id, title, cover, published from article where category_id = 9 order by published desc limit 5;";
+
+    connection.query(sql, (error, result) => {
+        if(error) res.json({ "Error": error });
+        else res.status(200).json({ data: result });
+    });
+});
+
 module.exports = ArticleRouter;
