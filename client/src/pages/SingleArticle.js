@@ -8,6 +8,8 @@ const SingleArticle = () => {
     const { articleID } = useParams();
 
     useEffect(() => {
+        setArticle({});
+        setSimilar([]);
         fetch(`http://localhost:5000/api/v1/articles/single/${articleID}`)
         .then(res => res.json())
         .then(res => {
