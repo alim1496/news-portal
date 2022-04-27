@@ -13,6 +13,7 @@ import Categories from "./pages/Categories";
 import CategoryArticles from "./pages/CategoryArticles";
 import Dashboard from "./pages/Dashboard";
 import Home from "./pages/Home";
+import HomeVideos from "./pages/HomeVideos";
 import Login from "./pages/Login";
 import SingleArticle from "./pages/SingleArticle";
 import Videos from "./pages/Videos";
@@ -26,6 +27,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={ <Home />} />
           <Route path="/latest" element={ <CategoryArticles /> } />
+          <Route path="/videos" element={ <HomeVideos /> } />
           <Route path="/category/:catID/:catName" element={ <CategoryArticles /> } />
           <Route path="/article/:articleID/:articleTitle" element={ <SingleArticle /> } />
           <Route path="/admin/login" element={ <Login />} />

@@ -4,7 +4,18 @@ const connection = require("../utils/connection");
 const VideoRouter = express.Router();
 
 VideoRouter.get("/", isAuth, isAdmin, (req, res) => {
-    connection.query('select * from video order by created desc', (error, result) => {
+    const { page, limit } = req.query;
+    connection.query('select * from video order by created desc limit ? offset ?',
+    [parseInt(limit), (parseInt(page)-1)*parseInt(limit)], (error, result) => {
+        if(error) res.json({ "Error": error });
+        else res.status(200).json({ "data": result });
+    });
+});
+
+VideoRouter.get("/feed", (req, res) => {
+    const { page, limit } = req.query;
+    connection.query('select * from video order by created desc limit ? offset ?',
+    [parseInt(limit), (parseInt(page)-1)*parseInt(limit)], (error, result) => {
         if(error) res.json({ "Error": error });
         else res.status(200).json({ "data": result });
     });

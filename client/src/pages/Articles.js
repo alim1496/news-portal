@@ -51,7 +51,7 @@ const Articles = () => {
                     <div key={index} className="border border-gray-400 rounded px-4 py-4 mb-4">
                         <p>{article.title}</p>
                         <div className="flex">
-                            <TimeAgo date={article.published} />
+                            <TimeAgo date={article.published} live={false} />
                             {article.status === 0 ? <p className="ml-4 text-blue-700">Pending</p> : <p className="ml-4 text-green-700">Published</p>}
                             <button type="button" className="ml-4 text-red-700 font-medium" onClick={() => deleteData(article.id)}>Delete</button>
                         </div>

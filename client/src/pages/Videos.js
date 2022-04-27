@@ -2,21 +2,36 @@ import React, { useState, useEffect } from "react";
 import TimeAgo from "react-timeago";
 import Auth from "../utils/auth";
 
+var page = 1;
+
 const Videos = () => {
     const [videos, setVideos] = useState([]);
     const [title, setTitle] = useState("");
     const [link, setLink] = useState("");
+    const [more, setMore] = useState(true);
+    const limit = 10;
 
     useEffect(() => {
-        fetchData();
+        page = 1;
+        mainFetch(1);
     }, []);
 
-    const fetchData = () => {
-        fetch("http://localhost:5000/api/v1/videos", {
+    const fetchMore = () => {
+        page++;
+        mainFetch(page);
+    };
+
+    const mainFetch = (_page) => {
+        fetch(`http://localhost:5000/api/v1/videos?page=${_page}&limit=${limit}`, {
             headers: { "Authorization": `Bearer ${Auth.getToken()}` }
         })
         .then(res => res.json())
-        .then(res => setVideos(res.data));
+        .then(({ data }) => {
+            if(data.length < limit) {
+                setMore(false);
+            }
+            setVideos(old => [...old, ...data]);
+        });
     };
 
     const submitData = () => {
@@ -31,7 +46,7 @@ const Videos = () => {
         .then(res => {
             setTitle("");
             setLink("");
-            fetchData();
+            window.location.reload();
         });
     };
 
@@ -81,13 +96,18 @@ const Videos = () => {
                     <div key={index} className="border border-gray-400 rounded px-4 py-4 mb-4">
                         <p>{video.title}</p>
                         <div className="flex">
-                            <TimeAgo date={video.created} />
+                            <TimeAgo date={video.created} live={false} />
                             <a href={video.link} target="_blank" className="ml-4 text-blue-700">Go to Link</a>
                             <button type="button" className="ml-4 text-red-700 font-medium" onClick={() => deleteData(video.id)}>Delete</button>
                         </div>
                     </div>
                 ))}
             </div>
+            {more && (
+                <div className="text-center">
+                    <button type="button" className="border px-8 py-2 mb-8" onClick={fetchMore}>আরও লোড করুন</button>
+                </div>
+            )}
         </div>
     );
 };

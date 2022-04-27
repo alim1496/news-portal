@@ -26,6 +26,9 @@ const MenuBar = () => {
                             <Link className="font-medium font-mono hover:text-blue-700" to={`/category/${cat.id}/${cat.name}`}>{cat.name}</Link>
                         </span>
                     ))}
+                    <span className="mr-4">
+                        <Link className="font-medium font-mono hover:text-blue-700" to="/videos">ভিডিও</Link>
+                    </span>
                 </>
             </div>
             <hr className="my-2" />
