@@ -25,6 +25,7 @@ const App = () => {
         {!Auth.isUserAuthenticated() && <MenuBar />}
         <Routes>
           <Route path="/" element={ <Home />} />
+          <Route path="/latest" element={ <CategoryArticles /> } />
           <Route path="/category/:catID/:catName" element={ <CategoryArticles /> } />
           <Route path="/article/:articleID/:articleTitle" element={ <SingleArticle /> } />
           <Route path="/admin/login" element={ <Login />} />

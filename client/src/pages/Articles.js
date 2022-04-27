@@ -2,19 +2,34 @@ import React, { useState, useEffect } from "react";
 import TimeAgo from "react-timeago";
 import Auth from "../utils/auth";
 
+var page = 1;
+
 const Articles = () => {
     const [articles, setArticles] = useState([]);
+    const [more, setMore] = useState(true);
+    const limit = 50;
 
     useEffect(() => {
-        fetchData();
+        page = 1;
+        mainFetch(page);
     }, []);
 
-    const fetchData = () => {
-        fetch("http://localhost:5000/api/v1/articles", {
+    const fetchMore = () => {
+        page++;
+        mainFetch(page);
+    };
+
+    const mainFetch = (_page) => {
+        fetch(`http://localhost:5000/api/v1/articles?page=${_page}&limit=${limit}`, {
             headers: { "Authorization": `Bearer ${Auth.getToken()}` }
         })
         .then(res => res.json())
-        .then(res => setArticles(res.data));
+        .then(({ data }) => {
+            if(data.length < limit) {
+                setMore(false);
+            }
+            setArticles(old => [...old, ...data]);
+        });
     };
 
     const deleteData = (id) => {
@@ -43,6 +58,11 @@ const Articles = () => {
                     </div>
                 ))}
             </div>
+            {more && (
+                <div className="text-center">
+                    <button type="button" className="border px-8 py-2 mb-8" onClick={fetchMore}>আরও লোড করুন</button>
+                </div>
+            )}
         </div>
     );
 }

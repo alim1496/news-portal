@@ -5,7 +5,10 @@ const connection = require("../utils/connection");
 const ArticleRouter = express.Router();
 
 ArticleRouter.get("/", isAuth, isAdmin, (req, res) => {
-    connection.query('select id, title, status, published from article where status <> 2 order by published desc', (error, result) => {
+    const { page, limit } = req.query;
+    connection.query('select id, title, status, published from article where status <> 2 order by published desc limit ? offset ?',
+    [parseInt(limit), (parseInt(page)-1)*parseInt(limit)],
+    (error, result) => {
         if(error) res.json({ "Error": error });
         else res.status(200).json({ "data": result });
     });
@@ -34,6 +37,16 @@ ArticleRouter.get("/category/:id", (req, res) => {
     connection.query(
         'select id, title, cover, published from article where category_id = ? and status = 1 order by published desc limit ? offset ?',
         [req.params.id, parseInt(limit), (parseInt(page)-1)*parseInt(limit)], (error, result) => {
+            if(error) res.json({ "Error": error });
+            else res.status(200).json({ "data": result });
+        });
+});
+
+ArticleRouter.get("/latest", (req, res) => {
+    const { page, limit } = req.query;
+    connection.query(
+        'select id, title, cover, published from article where status = 1 order by published desc limit ? offset ?',
+        [parseInt(limit), (parseInt(page)-1)*parseInt(limit)], (error, result) => {
             if(error) res.json({ "Error": error });
             else res.status(200).json({ "data": result });
         });

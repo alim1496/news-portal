@@ -13,7 +13,13 @@ const CategoryArticles = () => {
     useEffect(() => {
         page = 1;
         setArticles([]);
-        fetch(`http://localhost:5000/api/v1/articles/category/${catID}?page=${page}&limit=${limit}`)
+        let url;
+        if(catID && catName) {
+            url = `http://localhost:5000/api/v1/articles/category/${catID}?page=${page}&limit=${limit}`;
+        } else {
+            url = `http://localhost:5000/api/v1/articles/latest?page=${page}&limit=${limit}`;
+        }
+        fetch(url)
         .then(res => res.json())
         .then(res => {
             setArticles(res.data);
@@ -22,7 +28,13 @@ const CategoryArticles = () => {
     
     const fetchMore = () => {
         page++;
-        fetch(`http://localhost:5000/api/v1/articles/category/${catID}?page=${page}&limit=${limit}`)
+        let url;
+        if(catID && catName) {
+            url = `http://localhost:5000/api/v1/articles/category/${catID}?page=${page}&limit=${limit}`;
+        } else {
+            url = `http://localhost:5000/api/v1/articles/latest?page=${page}&limit=${limit}`;
+        }
+        fetch(url)
         .then(res => res.json())
         .then(({ data }) => {
             if(data.length < limit) {
@@ -34,7 +46,7 @@ const CategoryArticles = () => {
 
     return (
         <div className="container mx-auto">
-            <h2 className="my-2 font-bold text-lg text-center">{catName}</h2>
+            <h2 className="my-2 font-bold text-lg text-center">{catName ? catName : 'সর্বশেষ'}</h2>
             <div className="flex flex-wrap justify-center mb-8">
                 {articles && articles.map((article, index) => (
                     <div key={index} className="border mr-4 mb-4 w-1/5 bg-gray-200">
