@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import Carousel from "react-simply-carousel";
 import DoubleRowFeed from "../components/DoubleRowFeed";
 import RowFeed from "../components/RowFeed";
 import SingleFeed from "../components/SingleFeed";
@@ -12,6 +13,8 @@ const Home = () => {
     const [tech, setTech] = useState([]);
     const [sport, setSport] = useState([]);
     const [life, setLife] = useState([]);
+    const [top, setTop] = useState([]);
+    const [index, setIndex] = useState(0);
 
     useEffect(() => {
         fetch("http://localhost:5000/api/v1/articles/feed")
@@ -25,11 +28,31 @@ const Home = () => {
             setTech(res.data[5]);
             setSport(res.data[6]);
             setLife(res.data[7]);
+            setTop(res.data[8]);
         });
     }, []);
 
     return (
         <div className="container mx-auto">
+            <div className="my-4">
+                {top.length > 0 && (<Carousel
+                    activeSlideIndex={index}
+                    onRequestChange={(_new) => setIndex(_new)}
+                    itemsToShow={3}
+                    itemsToScroll={3}
+                    autoplay={true}
+                    delay={3000}
+                >
+                    {top && top.map((_top, index) => (
+                        <div key={index} style={{ width: 500, height: 300 }} className="relative border-2 border-black">
+                            <img src={_top.cover} style={{ width: 500, height: 295 }} alt="cover" />
+                            <div className="absolute w-full p-2 bottom-0 bg-gray-500 text-white text-center">
+                                <h3 className="font-mojo">{_top.title}</h3>
+                            </div>
+                        </div>
+                    ))}
+                </Carousel>)}
+            </div>
             <div className="flex">
                 {national.length > 0 && <SingleFeed data={national} title="জাতীয়" width="w-1/3" font="text-base" />}
                 {inter.length > 0 && <SingleFeed data={inter} title="আন্তর্জাতিক" width="w-1/3" font="text-base" />}

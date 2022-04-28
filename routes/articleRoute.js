@@ -6,7 +6,7 @@ const ArticleRouter = express.Router();
 
 ArticleRouter.get("/", isAuth, isAdmin, (req, res) => {
     const { page, limit } = req.query;
-    connection.query('select id, title, status, published from article where status <> 2 order by published desc limit ? offset ?',
+    connection.query('select id, title, status, published, top from article where status <> 2 order by published desc limit ? offset ?',
     [parseInt(limit), (parseInt(page)-1)*parseInt(limit)],
     (error, result) => {
         if(error) res.json({ "Error": error });
@@ -27,6 +27,13 @@ ArticleRouter.post("/", isAuth, isAdmin, (req, res) => {
 
 ArticleRouter.delete("/:id", isAuth, isAdmin, (req, res) => {
     connection.query('delete from article where id = ?', [req.params.id], (error, result) => {
+        if(error) res.json({ "Error": error });
+        else res.status(201).json({ "message": result });
+    });
+});
+
+ArticleRouter.patch("/:id", isAuth, isAdmin, (req, res) => {
+    connection.query('update article set top = ? where id = ?', [req.body.top, req.params.id], (error, result) => {
         if(error) res.json({ "Error": error });
         else res.status(201).json({ "message": result });
     });
@@ -71,14 +78,15 @@ ArticleRouter.get("/similar/:id", (req, res) => {
 });
 
 ArticleRouter.get("/feed", (req, res) => {
-    let sql = "select id, title, cover, published from article where category_id = 7 order by published desc limit 5;";
-    sql += "select id, title, cover, published from article where category_id = 1 order by published desc limit 5;";
-    sql += "select id, title, cover, published from article where category_id = 4 order by published desc limit 5;";
-    sql += "select id, title, cover, published from article where category_id = 2 order by published desc limit 5;";
-    sql += "select id, title, cover, published from article where category_id = 5 order by published desc limit 5;";
-    sql += "select id, title, cover, published from article where category_id = 8 order by published desc limit 5;";
-    sql += "select id, title, cover, published from article where category_id = 6 order by published desc limit 5;";
-    sql += "select id, title, cover, published from article where category_id = 9 order by published desc limit 5;";
+    let sql = "select id, title, cover, published from article where status = 1 and category_id = 7 order by published desc limit 5;";
+    sql += "select id, title, cover, published from article where status = 1 and category_id = 1 order by published desc limit 5;";
+    sql += "select id, title, cover, published from article where status = 1 and category_id = 4 order by published desc limit 5;";
+    sql += "select id, title, cover, published from article where status = 1 and category_id = 2 order by published desc limit 5;";
+    sql += "select id, title, cover, published from article where status = 1 and category_id = 5 order by published desc limit 5;";
+    sql += "select id, title, cover, published from article where status = 1 and category_id = 8 order by published desc limit 5;";
+    sql += "select id, title, cover, published from article where status = 1 and category_id = 6 order by published desc limit 5;";
+    sql += "select id, title, cover, published from article where status = 1 and category_id = 9 order by published desc limit 5;";
+    sql += "select id, title, cover, published from article where status = 1 and top = 1 order by published desc limit 10;";
 
     connection.query(sql, (error, result) => {
         if(error) res.json({ "Error": error });
