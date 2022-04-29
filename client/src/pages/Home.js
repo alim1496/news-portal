@@ -18,6 +18,7 @@ const Home = () => {
     const [top, setTop] = useState([]);
     const [latest, setLatest] = useState([]);
     const [curIndex, setCurIndex] = useState(0);
+    const [title, setTitle] = useState("");
 
     useEffect(() => {
         const topInterval = setInterval(() => {
@@ -32,6 +33,7 @@ const Home = () => {
                 document.querySelector('#dot-4').style.fontWeight = '500';
             }
         }, 4000);
+
         fetch("http://localhost:5000/api/v1/articles/feed")
         .then(res => res.json())
         .then(res => {
@@ -46,6 +48,13 @@ const Home = () => {
             setTop(res.data[8]);
             setLatest(res.data[9]);
         });
+
+        fetch(`http://localhost:5000/api/v1/survey/feed`)
+        .then(res => res.json())
+        .then(({ data }) => {
+            setTitle(data[0].title);
+        });
+
         return () => clearInterval(topInterval);
     }, []);
 
@@ -94,7 +103,7 @@ const Home = () => {
                 )}
                 <div className="w-1/3 p-2 font-mono">
                     <h3 className="font-semibold text-lg">অনলাইন জরিপ</h3>
-                    <p className="mt-2">আসন্ন বর্ষায় ডেঙ্গু নিয়ে শঙ্কা রয়েছে কি?</p>
+                    <p className="mt-2">{title}</p>
                     <div className="mt-2">
                         <input type="radio" name="survey" id="yes" value={1} />
                         <label htmlFor="yes" className="ml-1">হ্যাঁ</label>
