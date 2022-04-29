@@ -86,7 +86,8 @@ ArticleRouter.get("/feed", (req, res) => {
     sql += "select id, title, cover, published from article where status = 1 and category_id = 8 order by published desc limit 5;";
     sql += "select id, title, cover, published from article where status = 1 and category_id = 6 order by published desc limit 5;";
     sql += "select id, title, cover, published from article where status = 1 and category_id = 9 order by published desc limit 5;";
-    sql += "select id, title, cover, published from article where status = 1 and top = 1 order by published desc limit 10;";
+    sql += "select id, title, cover, published from article where status = 1 and top = 1 order by published desc limit 5;";
+    sql += "select id, title, cover, published from article where status = 1 order by published desc limit 5;";
 
     connection.query(sql, (error, result) => {
         if(error) res.json({ "Error": error });
