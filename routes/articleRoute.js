@@ -78,6 +78,7 @@ ArticleRouter.get("/similar/:id", (req, res) => {
 });
 
 ArticleRouter.get("/feed", (req, res) => {
+    const _date = new Date().getDate();
     let sql = "select id, title, cover, published from article where status = 1 and category_id = 7 order by published desc limit 5;";
     sql += "select id, title, cover, published from article where status = 1 and category_id = 1 order by published desc limit 5;";
     sql += "select id, title, cover, published from article where status = 1 and category_id = 4 order by published desc limit 5;";
@@ -88,6 +89,29 @@ ArticleRouter.get("/feed", (req, res) => {
     sql += "select id, title, cover, published from article where status = 1 and category_id = 9 order by published desc limit 5;";
     sql += "select id, title, cover, published from article where status = 1 and top = 1 order by published desc limit 5;";
     sql += "select id, title, cover, published from article where status = 1 order by published desc limit 5;";
+    //sql += `select * from history where date = ${_date};`;
+    sql += "select * from history;";
+
+    connection.query(sql, (error, result) => {
+        if(error) res.json({ "Error": error });
+        else res.status(200).json({ data: result });
+    });
+});
+
+ArticleRouter.get("/dashboard", isAuth, isAdmin, (req, res) => {
+    let sql = "select count(*) as জাতীয় from article where status = 1 and category_id = 7;";
+    sql += "select count(*) as আন্তর্জাতিক from article where status = 1 and category_id = 1;";
+    sql += "select count(*) as রাজনীতি from article where status = 1 and category_id = 4;";
+    sql += "select count(*) as অর্থনীতি from article where status = 1 and category_id = 2;";
+    sql += "select count(*) as বিনোদন from article where status = 1 and category_id = 5;";
+    sql += "select count(*) as প্রযুক্তি from article where status = 1 and category_id = 8;";
+    sql += "select count(*) as খেলাধুলা from article where status = 1 and category_id = 6;";
+    sql += "select count(*) as লাইফস্টাইল from article where status = 1 and category_id = 9;";
+    sql += "select count(*) as শীর্ষ from article where status = 1 and top = 1;";
+    sql += "select count(*) as সর্বমোট from article where status = 1;";
+    sql += "select count(*) as ক্যাটাগরি from category;";
+    sql += "select count(*) as ইউজার from user;";
+    sql += "select count(*) as ভিডিও from video;";
 
     connection.query(sql, (error, result) => {
         if(error) res.json({ "Error": error });

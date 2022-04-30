@@ -18,8 +18,8 @@ const Home = () => {
     const [top, setTop] = useState([]);
     const [latest, setLatest] = useState([]);
     const [curIndex, setCurIndex] = useState(0);
-    const [title, setTitle] = useState("");
-
+    const [day, setDay] = useState([]);
+    
     useEffect(() => {
         const topInterval = setInterval(() => {
             document.querySelector(`#dot-${i}`).style.fontWeight = '800';
@@ -47,12 +47,7 @@ const Home = () => {
             setLife(res.data[7]);
             setTop(res.data[8]);
             setLatest(res.data[9]);
-        });
-
-        fetch(`http://localhost:5000/api/v1/survey/feed`)
-        .then(res => res.json())
-        .then(({ data }) => {
-            setTitle(data[0].title);
+            setDay(res.data[10]);
         });
 
         return () => clearInterval(topInterval);
@@ -61,6 +56,15 @@ const Home = () => {
     return (
         <div className="container mx-auto">
             <div className="flex my-12">
+                {latest.length > 0 && (
+                    <div className="w-1/3 mr-4">
+                        {latest && latest.map((lat, index) => (
+                            <div key={index} className="border bg-gray-200 p-4 mb-1 font-mono">
+                                <h3>{lat.title}</h3>
+                            </div>
+                        ))}
+                    </div>
+                )}
                 <div className="w-1/3">
                     {top.length > 0 && (
                         <>
@@ -90,33 +94,15 @@ const Home = () => {
                             </div>
                         </>
                     )}
-
                 </div>
-                {latest.length > 0 && (
-                    <div className="w-1/3 mx-4">
-                        {latest && latest.map((lat, index) => (
-                            <div key={index} className="border bg-gray-200 p-4 mb-1 font-mono">
-                                <h3>{lat.title}</h3>
-                            </div>
+                <div className="ml-4 font-mono">
+                    {day.length > 0 && (
+                    <>
+                        <h3 className="font-semibold mb-2">ইতিহাসের পাতায় আজ</h3>
+                        {day && day.map((_day, index) => (
+                            <p key={index} className="max-w-sm mb-2">{_day.title}</p>
                         ))}
-                    </div>
-                )}
-                <div className="w-1/3 p-2 font-mono">
-                    <h3 className="font-semibold text-lg">অনলাইন জরিপ</h3>
-                    <p className="mt-2">{title}</p>
-                    <div className="mt-2">
-                        <input type="radio" name="survey" id="yes" value={1} />
-                        <label htmlFor="yes" className="ml-1">হ্যাঁ</label>
-                    </div>
-                    <div className="mt-2">
-                        <input type="radio" name="survey" id="no" value={2} />
-                        <label htmlFor="no" className="ml-1">না</label>
-                    </div>
-                    <div className="mt-2">
-                        <input type="radio" name="survey" id="may" value={3} />
-                        <label htmlFor="may" className="ml-1">মন্তব্য নেই</label>
-                    </div>
-                    <button className="mt-2 border rounded-lg bg-blue-700 text-white py-2 px-4 hover:bg-blue-800" type="button">মতামত দিন</button>
+                    </>)}
                 </div>
             </div>
             <div className="flex">

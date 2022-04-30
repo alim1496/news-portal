@@ -6,7 +6,6 @@ var page = 1;
 
 const Articles = () => {
     const [articles, setArticles] = useState([]);
-    const [top, setTop] = useState(false);
     const [more, setMore] = useState(true);
     const limit = 50;
 
@@ -70,7 +69,7 @@ const Articles = () => {
                             {article.status === 0 ? <p className="ml-4 text-blue-700">Pending</p> : <p className="ml-4 text-green-700">Published</p>}
                             <button type="button" className="ml-4 text-red-700 font-medium" onClick={() => deleteData(article.id)}>Delete</button>
                             <input checked={article.top === 1 ? true : false} onChange={(e) => changeTop(e, article.id)} type="checkbox" id="checkTop" className="bg-gray-50 mr-2 ml-4 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
-                            <label htmlFor="checkTop" className="block text-lg text-gray-900 dark:text-gray-300">Featured</label>
+                            <label htmlFor="checkTop" className="block text-lg text-gray-900 dark:text-gray-300">Top</label>
                         </div>
                     </div>
                 ))}
