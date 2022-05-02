@@ -18,7 +18,7 @@ const Login = () => {
         fetch("http://localhost:5000/api/v1/users/login", {
             method: "POST",
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({ email, password })
+            body: JSON.stringify({ email, password, admin: true })
         })
         .then(res => res.json())
         .then(res => {

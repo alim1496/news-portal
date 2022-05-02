@@ -16,6 +16,20 @@ export const parseDate = (date) => {
     
 };
 
+export const parseToday = (date) => {
+    try {
+        const d = date.split(",")[0];
+        const parts = d.split("/");
+        const bn_month = months[parseInt(parts[1])-1];
+        const bn_date = toBangla(parts[0]);
+        const bn_year = toBangla(parts[2]);
+        return bn_date + " " + bn_month + ", " + bn_year;
+    } catch(e) {
+        return "";
+    }
+    
+};
+
 const toBangla = (eng) => {
     let bang = "";
     for(let i=0;i<eng.length;i++) {

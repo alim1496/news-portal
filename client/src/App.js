@@ -1,3 +1,4 @@
+import { createContext, useState } from "react";
 import {
   BrowserRouter,
   Routes,
@@ -7,6 +8,7 @@ import './App.css';
 import MenuBar from "./components/MenuBar";
 import Navbar from './components/Navbar';
 import ProtectedRoute from "./components/ProtectedRoute";
+import UserLogin from "./components/UserLogin";
 import AddArticle from "./pages/AddArticle";
 import Articles from "./pages/Articles";
 import Categories from "./pages/Categories";
@@ -19,11 +21,21 @@ import SingleArticle from "./pages/SingleArticle";
 import Videos from "./pages/Videos";
 import Auth from "./utils/auth";
 
+export const UserContext = createContext();
+
 const App = () => {
+  const [open, setOpen] = useState(false);
+
+  const updateModal = (v) => {
+    setOpen(v);
+  }
+
   return (
+    <UserContext.Provider value={{ open, updateModal }}>
       <BrowserRouter>
         {Auth.isUserAuthenticated() && <Navbar />}
         {!Auth.isUserAuthenticated() && <MenuBar />}
+        <UserLogin />
         <Routes>
           <Route path="/" element={ <Home />} />
           <Route path="/latest" element={ <CategoryArticles /> } />
@@ -48,6 +60,7 @@ const App = () => {
           </Route>
         </Routes>
       </BrowserRouter>
+    </UserContext.Provider>  
   );
 }
 

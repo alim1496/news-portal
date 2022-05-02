@@ -1,8 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
+import { parseToday } from "../utils/helper";
+import { UserContext } from "../App";
 
 const MenuBar = () => {
     const [categories, setCategories] = useState([]);
+    const { updateModal } = useContext(UserContext);
 
     useEffect(() => {
         fetch("http://localhost:5000/api/v1/categories/feed")
@@ -10,11 +13,34 @@ const MenuBar = () => {
         .then(res => setCategories(res.data));
     }, []);
 
+    const logout = () => {
+        window.localStorage.removeItem("user-token");
+        window.user = null;
+        window.location.reload();
+    };
+
     return (
-        <div id="menu-bar" className="bg-white text-center py-2">
-            <h1 className="font-bold font-mono text-3xl">
-                <Link to="/">আজকের খবর</Link>
-            </h1>
+        <div id="menu-bar" className="container mx-auto bg-white text-center py-2">
+            <div className="flex justify-between items-center">
+                <span>{parseToday(new Date().toLocaleString())}</span>
+                <h1 className="font-bold font-mono text-3xl py-2">
+                    <Link to="/">আজকের খবর</Link>
+                </h1>
+                {!window.user ? (
+                    <span className="text-blue-500 font-mono cursor-pointer hover:text-blue-800" onClick={() => updateModal(true)}>
+                        লগইন
+                    </span>
+                    )
+                    : (
+                        <div className="flex font-mono">
+                            <span className="mr-4">{window.user.name}</span>
+                            <span className="text-blue-500 cursor-pointer hover:text-blue-800" onClick={logout}>
+                                লগআউট
+                            </span>
+                        </div>    
+                )}
+                
+            </div>
             <hr className="my-2" />
             <div className="flex justify-center">
                 <>

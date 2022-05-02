@@ -1,11 +1,11 @@
 const jwt = require("jsonwebtoken");
 
-const getToken = (user) => {
+const getToken = (user, admin) => {
     const { fullname, email } = user;
     return jwt.sign({
         fullname,
         email,
-        admin: true
+        admin
     },
     "abc-123-secret-7612",
     {
