@@ -79,7 +79,7 @@ const SingleArticle = () => {
                 <h3 className="text-xl font-semibold mb-4">এরকম আরও</h3>
                 {similar && similar.map((sim, index) => (
                     <Link to={`/article/${sim.id}/${slugify(sim.title)}`}>
-                        <div key={index} className="flex border mb-4 bg-gray-200">
+                        <div key={index} className="flex border mb-4 bg-white">
                             <img src={sim.cover} className="w-1/2" alt="cover" />
                             <h4 className="px-2 py-2 w-1/2 text-sm font-mono font-medium">{sim.title}</h4>
                         </div>

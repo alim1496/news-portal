@@ -11,7 +11,7 @@ const DoubleRowFeed = ({ data, title }) => {
             <h3 className="text-lg font-semibold mb-2">{title}</h3>
             <div className="flex">
                 {first && first.map((other, index) => (
-                    <div key={index} className="mb-4 mr-4 border bg-gray-200 w-1/2">
+                    <div key={index} className="mb-4 mr-4 border bg-white w-1/2">
                         <Link to={`/article/${other.id}/${slugify(other.title)}`}>
                             <img src={other.cover} alt="cover" />
                             <h4 className="p-4 text-2xl">{other.title}</h4>
@@ -21,7 +21,7 @@ const DoubleRowFeed = ({ data, title }) => {
             </div>
             <div className="flex">
                 {second && second.map((other, index) => (
-                    <div key={index} className="mb-4 mr-4 border bg-gray-200 w-1/3">
+                    <div key={index} className="mb-4 mr-4 border bg-white w-1/3">
                         <Link to={`/article/${other.id}/${slugify(other.title)}`}>
                             <img src={other.cover} alt="cover" />
                             <h4 className="p-4 text-2xl">{other.title}</h4>

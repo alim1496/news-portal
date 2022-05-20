@@ -59,7 +59,7 @@ const Home = () => {
                 {latest.length > 0 && (
                     <div className="w-1/3 mr-4">
                         {latest && latest.map((lat, index) => (
-                            <div key={index} className="border bg-gray-200 p-4 mb-1 font-mono">
+                            <div key={index} className="border bg-white p-4 mb-1 font-mono">
                                 <h3>{lat.title}</h3>
                             </div>
                         ))}
@@ -99,9 +99,11 @@ const Home = () => {
                     {day.length > 0 && (
                     <>
                         <h3 className="font-semibold mb-2">ইতিহাসের পাতায় আজ</h3>
-                        {day && day.map((_day, index) => (
-                            <p key={index} className="max-w-sm mb-2">{_day.title}</p>
-                        ))}
+                        <ul className="list-disc">
+                            {day && day.map((_day, index) => (
+                                <li key={index} className="max-w-sm mb-2 ml-4">{_day.title}</li>
+                            ))}
+                        </ul>
                     </>)}
                 </div>
             </div>

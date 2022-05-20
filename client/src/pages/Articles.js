@@ -59,10 +59,10 @@ const Articles = () => {
     };
 
     return (
-        <div className="container mx-auto my-10">
+        <div className="container mx-auto my-10 bg-blue-50">
             <div className="my-10">
                 {articles && articles.map((article, index) => (
-                    <div key={index} className="border border-gray-400 rounded px-4 py-4 mb-4">
+                    <div key={index} className="bg-white border border-gray-400 rounded px-4 py-4 mb-4">
                         <p>{article.title}</p>
                         <div className="flex items-center">
                             <TimeAgo date={article.published} />

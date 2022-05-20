@@ -93,7 +93,7 @@ const Videos = () => {
             </form>
             <div className="my-10">
                 {videos && videos.map((video, index) => (
-                    <div key={index} className="border border-gray-400 rounded px-4 py-4 mb-4">
+                    <div key={index} className="bg-white border border-gray-400 rounded px-4 py-4 mb-4">
                         <p>{video.title}</p>
                         <div className="flex">
                             <TimeAgo date={video.created} live={false} />

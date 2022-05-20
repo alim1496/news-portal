@@ -20,7 +20,7 @@ const Dashboard = () => {
             {data.length > 0 && (
                 <div className="flex flex-wrap my-10 font-mono">
                     {data && data.map((_data, index) => (
-                        <div key={index} className="border mr-2 mb-2 p-4 rounded-lg">
+                        <div key={index} className="border p-4 w-2/5 mr-4 mb-4 flex justify-between bg-white rounded-lg">
                             <h3 className="text-lg">{Object.keys(_data[0])}</h3>
                             <h3 className="text-lg">{Object.values(_data[0])}</h3>
                         </div>

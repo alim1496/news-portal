@@ -54,7 +54,7 @@ const Categories = () => {
             </form>
             <div className="my-10 flex flex-wrap">
                 {categories && categories.map((cat, index) => (
-                    <span key={index} className="border border-gray-400 rounded px-8 py-2 mr-4 mb-4 font-medium">{cat.name}</span>
+                    <span key={index} className="bg-white border border-gray-400 rounded px-8 py-2 mr-4 mb-4 font-medium">{cat.name}</span>
                 ))}
             </div>
         </div>

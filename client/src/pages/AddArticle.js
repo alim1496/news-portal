@@ -46,7 +46,7 @@ const AddArticle = () => {
     };
 
     return (
-        <div className="container mx-auto my-10">
+        <div className="container mx-auto my-10 bg-blue-50">
             <form>
                 <div className="mb-6">
                     <label htmlFor="title" className="block mb-2 text-lg font-medium text-gray-900 dark:text-gray-300">Title</label>

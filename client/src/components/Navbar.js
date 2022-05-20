@@ -9,7 +9,7 @@ const Navbar = () => {
     };
 
     return (
-        <nav className="bg-white border-gray-200 px-2 sm:px-4 py-2.5 rounded dark:bg-gray-800">
+        <nav className="bg-blue-50 border-gray-200 py-2.5 rounded">
             <div className="container flex flex-wrap justify-between items-center mx-auto">
                 <Link to="/admin" className="flex items-center">
                     <span className="self-center text-2xl font-bold whitespace-nowrap dark:text-white">Dashboard</span>
@@ -36,12 +36,10 @@ const Navbar = () => {
                         <li>
                             <Link to="/admin/videos" className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Videos</Link>
                         </li>
-                        <li>
-                            <Link to="/admin/surveys" className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Surveys</Link>
-                        </li>
                     </ul>
                 </div>
             </div>
+            <hr className="mt-3 border-black" />
         </nav>
 
     );
