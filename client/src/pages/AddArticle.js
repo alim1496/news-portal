@@ -11,12 +11,16 @@ const AddArticle = () => {
     const [featured, setFeatured] = useState(false);
 
     useEffect(() => {
+        fetchCategories();
+    }, []);
+
+    const fetchCategories = () => {
         fetch("http://localhost:5000/api/v1/categories", {
             headers: { "Authorization": `Bearer ${Auth.getToken()}` }
         })
         .then(res => res.json())
         .then(res => setCategories(res.data));
-    }, []);
+    };
 
     const submitData = () => {
         if(!title || !cover || !body) return;
@@ -49,31 +53,31 @@ const AddArticle = () => {
         <div className="container mx-auto my-10 bg-blue-50">
             <form>
                 <div className="mb-6">
-                    <label htmlFor="title" className="block mb-2 text-lg font-medium text-gray-900 dark:text-gray-300">Title</label>
+                    <label htmlFor="title" className="block mb-2 text-lg font-medium text-gray-900">Title</label>
                     <input 
                         type="text" 
                         value={title} 
                         onChange={e => setTitle(e.target.value)} 
                         id="title" 
-                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" 
                         placeholder="Enter article title" 
                         required
                     />
                 </div>
                 <div className="mb-6">
-                    <label htmlFor="cover" className="block mb-2 text-lg font-medium text-gray-900 dark:text-gray-300">Cover</label>
+                    <label htmlFor="cover" className="block mb-2 text-lg font-medium text-gray-900">Cover</label>
                     <input 
                         type="text" 
                         id="cover"
                         value={cover} 
                         onChange={e => setCover(e.target.value)}
-                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" 
                         placeholder="Enter article cover" 
                         required
                     />
                 </div>
                 <div className="mb-6">
-                    <label htmlFor="category" className="block mb-2 text-lg font-medium text-gray-900 dark:text-gray-300">Category</label>
+                    <label htmlFor="category" className="block mb-2 text-lg font-medium text-gray-900">Category</label>
                     <select onChange={e => setCategory(e.target.value)} className="form-select block px-3 py-1.5 border border-solid border-gray-300">
                         {categories && categories.map((cat) => (
                             <option value={cat.id}>{cat.name}</option>
@@ -81,11 +85,11 @@ const AddArticle = () => {
                     </select>
                 </div>
                 <div className="mb-6">
-                    <label htmlFor="body" className="block mb-2 text-lg font-medium text-gray-900 dark:text-gray-300">Body</label>
-                    <textarea value={body} onChange={e => setBody(e.target.value)} type="text" rows="20" id="body" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Enter article body" required/>
+                    <label htmlFor="body" className="block mb-2 text-lg font-medium text-gray-900">Body</label>
+                    <textarea value={body} onChange={e => setBody(e.target.value)} type="text" rows="20" id="body" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Enter article body" required/>
                 </div>
                 <div className="mb-6">
-                    <label className="block mb-2 text-lg font-medium text-gray-900 dark:text-gray-300">Status</label>
+                    <label className="block mb-2 text-lg font-medium text-gray-900">Status</label>
                     <select onChange={e => setStatus(e.target.value)} className="form-select block px-3 py-1.5 border border-solid border-gray-300">
                         <option value={0}>Pending</option>
                         <option value={1}>Published</option>
@@ -93,10 +97,10 @@ const AddArticle = () => {
                     </select>
                 </div>
                 <div className="mb-6 flex items-center">
-                    <input checked={featured} onChange={e => setFeatured(e.target.checked)} type="checkbox" id="checkfeature" className="bg-gray-50 mr-2 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
-                    <label htmlFor="checkfeature" className="block text-lg text-gray-900 dark:text-gray-300">Featured</label>
+                    <input checked={featured} onChange={e => setFeatured(e.target.checked)} type="checkbox" id="checkfeature" className="bg-gray-50 mr-2 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block"/>
+                    <label htmlFor="checkfeature" className="block text-lg text-gray-900">Featured</label>
                 </div>
-                <button onClick={submitData} type="button" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg px-10 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800 mb-6">Submit</button>
+                <button onClick={submitData} type="button" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg px-10 py-2.5 mb-6">Submit</button>
             </form>
         </div>
     );
