@@ -22,7 +22,7 @@ const MenuBar = () => {
     return (
         <div id="menu-bar" className="container mx-auto bg-white text-center py-2 bg-blue-50">
             <div className="flex justify-between items-center">
-                <span>{parseToday(new Date().toLocaleString())}</span>
+                <span>{parseToday()}</span>
                 <h1 className="font-bold font-mono text-3xl py-2">
                     <Link to="/">আজকের খবর</Link>
                 </h1>

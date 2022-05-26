@@ -16,13 +16,12 @@ export const parseDate = (date) => {
     
 };
 
-export const parseToday = (date) => {
+export const parseToday = () => {
     try {
-        const d = date.split(",")[0];
-        const parts = d.split("/");
-        const bn_month = months[parseInt(parts[1])-1];
-        const bn_date = toBangla(parts[0]);
-        const bn_year = toBangla(parts[2]);
+        const d = new Date();
+        const bn_month = months[d.getMonth()];
+        const bn_date = toBangla(d.getDate().toString());
+        const bn_year = toBangla(d.getFullYear().toString());
         return bn_date + " " + bn_month + ", " + bn_year;
     } catch(e) {
         return "";

@@ -65,7 +65,7 @@ const Home = () => {
                         ))}
                     </div>
                 )}
-                <div className="w-1/3">
+                <div className="w-500">
                     {top.length > 0 && (
                         <>
                             <Carousel
