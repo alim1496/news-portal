@@ -14,6 +14,15 @@ ArticleRouter.get("/", isAuth, isAdmin, (req, res) => {
     });
 });
 
+ArticleRouter.get("/:id", isAuth, isAdmin, (req, res) => {
+    connection.query('select * from article where id = ?',
+    [req.params.id],
+    (error, result) => {
+        if(error) res.json({ "Error": error });
+        else res.status(200).json({ "data": result[0] });
+    });
+});
+
 ArticleRouter.post("/", isAuth, isAdmin, (req, res) => {
     const { title, body, cover, category_id, featured, status } = req.body;
     connection.query(
@@ -26,13 +35,22 @@ ArticleRouter.post("/", isAuth, isAdmin, (req, res) => {
 });
 
 ArticleRouter.delete("/:id", isAuth, isAdmin, (req, res) => {
-    connection.query('delete from article where id = ?', [req.params.id], (error, result) => {
+    connection.query('update article set status = 2 where id = ?', [req.params.id], (error, result) => {
         if(error) res.json({ "Error": error });
         else res.status(201).json({ "message": result });
     });
 });
 
 ArticleRouter.patch("/:id", isAuth, isAdmin, (req, res) => {
+    const { title, cover, body, featured, status, category_id } = req.body;
+    connection.query('update article set title = ?, cover = ?, body = ?, category_id = ?, featured = ?, status = ? where id = ?', 
+    [title, cover, body, category_id, featured, status, req.params.id], (error, result) => {
+        if(error) res.json({ "Error": error });
+        else res.status(201).json({ "message": result });
+    });
+});
+
+ArticleRouter.patch("/top/:id", isAuth, isAdmin, (req, res) => {
     connection.query('update article set top = ? where id = ?', [req.body.top, req.params.id], (error, result) => {
         if(error) res.json({ "Error": error });
         else res.status(201).json({ "message": result });
@@ -49,7 +67,7 @@ ArticleRouter.get("/category/:id", (req, res) => {
         });
 });
 
-ArticleRouter.get("/latest", (req, res) => {
+ArticleRouter.get("/home/latest", (req, res) => {
     const { page, limit } = req.query;
     connection.query(
         'select id, title, cover, published from article where status = 1 order by published desc limit ? offset ?',
@@ -77,7 +95,7 @@ ArticleRouter.get("/similar/:id", (req, res) => {
         });
 });
 
-ArticleRouter.get("/feed", (req, res) => {
+ArticleRouter.get("/home/feed", (req, res) => {
     const _date = new Date().getDate();
     let sql = "select id, title, cover, published from article where status = 1 and category_id = 7 order by published desc limit 5;";
     sql += "select id, title, cover, published from article where status = 1 and category_id = 1 order by published desc limit 5;";
@@ -98,7 +116,7 @@ ArticleRouter.get("/feed", (req, res) => {
     });
 });
 
-ArticleRouter.get("/dashboard", isAuth, isAdmin, (req, res) => {
+ArticleRouter.get("/panel/dashboard", isAuth, isAdmin, (req, res) => {
     let sql = "select count(*) as জাতীয় from article where status = 1 and category_id = 7;";
     sql += "select count(*) as আন্তর্জাতিক from article where status = 1 and category_id = 1;";
     sql += "select count(*) as রাজনীতি from article where status = 1 and category_id = 4;";

@@ -5,8 +5,8 @@ const Dashboard = () => {
     const [data, setData] = useState([]);
 
     useEffect(() => {
-        fetch("http://localhost:5000/api/v1/articles/dashboard", {
-            headers: { "Authorization": `Bearer ${Auth.getToken()}` }
+        fetch("http://localhost:5000/api/v1/articles/panel/dashboard", {
+            headers: { 'Content-Type': 'application/json', "Authorization": `Bearer ${Auth.getToken()}` }
         })
         .then(res => res.json())
         .then(res => {
@@ -17,7 +17,7 @@ const Dashboard = () => {
     return (
         <div className="container mx-auto">
             {/* Your token is {Auth.getToken()} */}
-            {data.length > 0 && (
+            {Array.isArray(data) && data.length > 0 && (
                 <div className="flex flex-wrap my-10 font-mono">
                     {data && data.map((_data, index) => (
                         <div key={index} className="border p-4 w-2/5 mr-4 mb-4 flex justify-between bg-white rounded-lg">

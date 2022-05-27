@@ -18,7 +18,7 @@ const CategoryArticles = () => {
         if(catID && catName) {
             url = `http://localhost:5000/api/v1/articles/category/${catID}?page=${page}&limit=${limit}`;
         } else {
-            url = `http://localhost:5000/api/v1/articles/latest?page=${page}&limit=${limit}`;
+            url = `http://localhost:5000/api/v1/articles/home/latest?page=${page}&limit=${limit}`;
         }
         fetch(url)
         .then(res => res.json())
@@ -33,7 +33,7 @@ const CategoryArticles = () => {
         if(catID && catName) {
             url = `http://localhost:5000/api/v1/articles/category/${catID}?page=${page}&limit=${limit}`;
         } else {
-            url = `http://localhost:5000/api/v1/articles/latest?page=${page}&limit=${limit}`;
+            url = `http://localhost:5000/api/v1/articles/home/latest?page=${page}&limit=${limit}`;
         }
         fetch(url)
         .then(res => res.json())

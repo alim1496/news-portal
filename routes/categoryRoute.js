@@ -17,6 +17,13 @@ CategoryRouter.post("/", isAuth, isAdmin, (req, res) => {
     });
 });
 
+CategoryRouter.delete("/:id", isAuth, isAdmin, (req, res) => {
+    connection.query('delete from category where id = ?', [req.params.id], (error, result) => {
+        if(error) res.json({ "Error": "Cannot delete a referenced category." });
+        else res.status(201).json({ "message": "Category deleted successfully." });
+    });
+});
+
 CategoryRouter.get("/feed", (req, res) => {
     connection.query('select id, name from category order by weight desc', (error, result) => {
         if(error) res.json({ "Error": error });

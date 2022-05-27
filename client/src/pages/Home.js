@@ -35,7 +35,7 @@ const Home = () => {
             }
         }, 4000);
 
-        fetch("http://localhost:5000/api/v1/articles/feed")
+        fetch("http://localhost:5000/api/v1/articles/home/feed")
         .then(res => res.json())
         .then(res => {
             setNational(res.data[0]);

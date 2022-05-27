@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import Auth from "../utils/auth";
 
 const AddArticle = () => {
@@ -9,10 +10,26 @@ const AddArticle = () => {
     const [category, setCategory] = useState(0);
     const [status, setStatus] = useState(0);
     const [featured, setFeatured] = useState(false);
+    const { slug } = useParams();
 
     useEffect(() => {
         fetchCategories();
-    }, []);
+        if(slug) fetchArchive();
+    }, [slug]);
+
+    const fetchArchive = () => {
+        fetch(`http://localhost:5000/api/v1/articles/${slug}`, {
+            headers: { "Authorization": `Bearer ${Auth.getToken()}` }
+        })
+        .then(res => res.json())
+        .then(({ data }) => {
+            setTitle(data.title);
+            setCover(data.cover);
+            setBody(data.body);
+            setStatus(data.status);
+            setCategory(data.category_id);
+        });
+    };
 
     const fetchCategories = () => {
         fetch("http://localhost:5000/api/v1/categories", {
@@ -24,29 +41,47 @@ const AddArticle = () => {
 
     const submitData = () => {
         if(!title || !cover || !body) return;
+
+        const method = slug ? 'PATCH' : 'POST';
+        const url = slug ? `http://localhost:5000/api/v1/articles/${slug}` : 'http://localhost:5000/api/v1/articles';
         const data = {
             title, body, cover, featured: featured ? 1 : 0, status, category_id: category
         };
-        fetch("http://localhost:5000/api/v1/articles", {
-            method: "POST",
+        
+        fetch(url, {
+            method: method,
             headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${Auth.getToken()}`},
             body: JSON.stringify(data)
         })
         .then(res => res.json())
         .then(res => {
             const { Error } = res;
-            if(Error) {
-                alert("Could not add article");
-            } else {
-                setCategory(0);
-                setTitle("");
-                setBody("");
-                setCover("");
-                setStatus(0);
-                setFeatured(false);
-                alert("Article added successfully")
-            }
+            if(slug) updateResponse(Error);
+            else addResponse(Error);
         });
+    };
+
+    const updateResponse = (Error) => {
+        if(Error) {
+            alert("Could not update article");
+        } else {
+            alert("Article updated successfully");
+            window.location.reload();
+        }
+    };
+
+    const addResponse = (Error) => {
+        if(Error) {
+            alert("Could not add article");
+        } else {
+            setCategory(0);
+            setTitle("");
+            setBody("");
+            setCover("");
+            setStatus(0);
+            setFeatured(false);
+            alert("Article added successfully")
+        }
     };
 
     return (
@@ -78,7 +113,7 @@ const AddArticle = () => {
                 </div>
                 <div className="mb-6">
                     <label htmlFor="category" className="block mb-2 text-lg font-medium text-gray-900">Category</label>
-                    <select onChange={e => setCategory(e.target.value)} className="form-select block px-3 py-1.5 border border-solid border-gray-300">
+                    <select onChange={e => setCategory(e.target.value)} value={category} className="form-select block px-3 py-1.5 border border-solid border-gray-300">
                         {categories && categories.map((cat) => (
                             <option value={cat.id}>{cat.name}</option>
                         ))}
@@ -90,7 +125,7 @@ const AddArticle = () => {
                 </div>
                 <div className="mb-6">
                     <label className="block mb-2 text-lg font-medium text-gray-900">Status</label>
-                    <select onChange={e => setStatus(e.target.value)} className="form-select block px-3 py-1.5 border border-solid border-gray-300">
+                    <select onChange={e => setStatus(e.target.value)} value={status} className="form-select block px-3 py-1.5 border border-solid border-gray-300">
                         <option value={0}>Pending</option>
                         <option value={1}>Published</option>
                         <option value={2}>Deleted</option>

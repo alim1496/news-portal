@@ -17,6 +17,23 @@ const Categories = () => {
         .then(res => setCategories(res.data));
     };
 
+    const deleteCategory = (id) => {
+        if(!window.confirm("Do you want to delete it?")) return;
+        fetch(`http://localhost:5000/api/v1/categories/${id}`, {
+            headers: { "Authorization": `Bearer ${Auth.getToken()}` },
+            method: "DELETE"
+        })
+        .then(res => res.json())
+        .then(({ message, Error }) => {
+            if(Error) alert(Error);
+            else {
+                alert(message);
+                setCategories([]);
+                fetchData();
+            }
+        });
+    };
+
     const submitData = () => {
         if(category === "") return;
 
@@ -54,7 +71,10 @@ const Categories = () => {
             </form>
             <div className="my-10 flex flex-wrap">
                 {categories && categories.map((cat, index) => (
-                    <span key={index} className="bg-white border border-gray-400 rounded px-8 py-2 mr-4 mb-4 font-medium">{cat.name}</span>
+                    <div key={index} className="flex bg-white border border-gray-400 rounded px-4 py-2 mr-4 mb-4 font-medium">
+                        <p className="mr-4">{cat.name}</p>
+                        <p className="hover:cursor-pointer hover:opacity-70" onClick={() => deleteCategory(cat.id)}>X</p>
+                    </div>
                 ))}
             </div>
         </div>

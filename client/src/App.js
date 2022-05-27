@@ -52,6 +52,9 @@ const App = () => {
           <Route path="/admin/add/article" exact element={<ProtectedRoute />}>
             <Route path="/admin/add/article" exact element={ <AddArticle />} />
           </Route>
+          <Route path="/admin/add/article/:slug" exact element={<ProtectedRoute />}>
+            <Route path="/admin/add/article/:slug" exact element={ <AddArticle />} />
+          </Route>
           <Route path="/admin/categories" exact element={<ProtectedRoute />}>
             <Route path="/admin/categories" exact element={ <Categories />} />
           </Route>
