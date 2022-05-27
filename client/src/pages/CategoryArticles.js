@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
+import Footer from "../components/Footer";
 import { slugify } from "../utils/helper";
 
 var page = 1;
@@ -62,6 +63,7 @@ const CategoryArticles = () => {
                     <button type="button" className="border px-8 py-2 mb-8 bg-white" onClick={fetchMore}>আরও লোড করুন</button>
                 </div>
             )}
+            <Footer />
         </div>
     );
 };

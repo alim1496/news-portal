@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import { parseToday } from "../utils/helper";
 import { UserContext } from "../App";
+import logo from "../assets/new-logo-3.png";
 
 const MenuBar = () => {
     const [categories, setCategories] = useState([]);
@@ -23,9 +24,9 @@ const MenuBar = () => {
         <div id="menu-bar" className="container mx-auto bg-white text-center py-2 bg-blue-50">
             <div className="flex justify-between items-center">
                 <span>{parseToday()}</span>
-                <h1 className="font-bold font-mono text-3xl py-2">
-                    <Link to="/">আজকের খবর</Link>
-                </h1>
+                <Link to="/">
+                    <img src={logo} alt="logo" className="h-20" />
+                </Link>
                 {!window.user ? (
                     <span className="text-blue-500 font-mono cursor-pointer hover:text-blue-800" onClick={() => updateModal(true)}>
                         লগইন

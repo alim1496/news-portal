@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Carousel from "react-simply-carousel";
 import DoubleRowFeed from "../components/DoubleRowFeed";
+import Footer from "../components/Footer";
 import RowFeed from "../components/RowFeed";
 import SingleFeed from "../components/SingleFeed";
 
@@ -119,6 +120,7 @@ const Home = () => {
                 {sport.length > 0 && <SingleFeed data={sport} title="খেলাধুলা" width="w-1/2" font="text-2xl" />}
                 {life.length > 0 && <SingleFeed data={life} title="লাইফস্টাইল" width="w-1/2" font="text-2xl" />}
             </div>
+            <Footer />
         </div>
     );
 };
