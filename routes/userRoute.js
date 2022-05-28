@@ -23,12 +23,12 @@ UserRouter.post("/login", (req, res) => {
 });
 
 UserRouter.post("/register", (req, res) => {
-    const { fullname, email, password } = req.body;
+    const { fullname, email, password, phone, nid, dob, address, gender } = req.body;
     bcrypt.hash(password, 10, function(err, hash) {
         if(err) res.status(409).json({ "Error": error });
         else {
-            connection.query('insert into user (fullname, email, password, admin) values (?,?,?,?)',
-            [fullname, email, hash, 0], (error, _res) => {
+            connection.query('insert into user (fullname, email, password, admin, mobile, nid, dob, address, gender, staff) values (?,?,?,?,?,?,?,?,?,?)',
+            [fullname, email, hash, 0, phone, nid, dob, address, gender, 0], (error, _res) => {
                 if(error) res.status(409).json({ "Error": error });
                 else res.status(201).json({ "message": "Successfully registered" })
             });
