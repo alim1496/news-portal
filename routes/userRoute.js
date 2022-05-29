@@ -2,6 +2,7 @@ const express = require("express");
 const bcrypt = require("bcrypt");
 const connection = require("../utils/connection");
 const { getToken } = require("../utils/auth");
+const send = require("../utils/sendMail");
 const UserRouter = express.Router();
 
 UserRouter.post("/login", (req, res) => {
@@ -30,7 +31,10 @@ UserRouter.post("/register", (req, res) => {
             connection.query('insert into user (fullname, email, password, admin, mobile, nid, dob, address, gender, staff) values (?,?,?,?,?,?,?,?,?,?)',
             [fullname, email, hash, 0, phone, nid, dob, address, gender, 0], (error, _res) => {
                 if(error) res.status(409).json({ "Error": error });
-                else res.status(201).json({ "message": "Successfully registered" })
+                else {
+                    res.status(201).json({ "message": "Successfully registered" });
+                    send();
+                }
             });
         }
     });
