@@ -33,7 +33,7 @@ UserRouter.post("/register", (req, res) => {
                 if(error) res.status(409).json({ "Error": error });
                 else {
                     res.status(201).json({ "message": "Successfully registered" });
-                    send();
+                    send(fullname, email, Math.floor(Math.random() * 899999 + 100000));
                 }
             });
         }

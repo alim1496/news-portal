@@ -14,21 +14,21 @@ var transporter = nodemailer.createTransport({
   service: 'gmail'
 });
 
-var mailOptions = {
-  from: 'marzia.aditi@gmail.com',
-  to: 'alim1496@gmail.com',
-  subject: 'Sending Email using Node.js',
-  text: 'That was easy!'
-};
+const send = (fullname, receiver, code) => {
+  const mailOptions = {
+    from: 'marzia.aditi@gmail.com',
+    to: receiver,
+    subject: 'Account verification for News World',
+    text: `Dear ${fullname}, Thank you for registering to News World. Your account verification code is ${code}.`
+  };
 
-const send = () => {
-    transporter.sendMail(mailOptions, function(error, info){
-        if (error) {
-          console.log(error);
-        } else {
-          console.log('Email sent: ' + info.response);
-        }
-    });
+  transporter.sendMail(mailOptions, function(error, info){
+      if (error) {
+        console.log(error);
+      } else {
+        console.log('Email sent: ' + info.response);
+      }
+  });
 };
 
 module.exports = send;
