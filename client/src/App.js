@@ -9,6 +9,7 @@ import MenuBar from "./components/MenuBar";
 import Navbar from './components/Navbar';
 import ProtectedRoute from "./components/ProtectedRoute";
 import UserLogin from "./components/UserLogin";
+import UserVerify from "./components/UserVerify";
 import AddArticle from "./pages/AddArticle";
 import Articles from "./pages/Articles";
 import Categories from "./pages/Categories";
@@ -25,17 +26,23 @@ export const UserContext = createContext();
 
 const App = () => {
   const [open, setOpen] = useState(false);
+  const [verify, setVerify] = useState(false);
 
   const updateModal = (v) => {
     setOpen(v);
   }
 
+  const updateVerify = (v) => {
+    setVerify(v);
+  }
+
   return (
-    <UserContext.Provider value={{ open, updateModal }}>
+    <UserContext.Provider value={{ open, updateModal, verify, updateVerify }}>
       <BrowserRouter>
         {Auth.isUserAuthenticated() && <Navbar />}
         {!Auth.isUserAuthenticated() && <MenuBar />}
         <UserLogin />
+        <UserVerify />
         <Routes>
           <Route path="/" element={ <Home />} />
           <Route path="/latest" element={ <CategoryArticles /> } />

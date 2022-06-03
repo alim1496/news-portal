@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import { UserContext } from "../App";
 
 const UserLogin = () => {
-    const { open, updateModal } = useContext(UserContext);
+    const { open, updateModal, verify, updateVerify } = useContext(UserContext);
     const [fullname, setFullname] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -25,9 +25,13 @@ const UserLogin = () => {
             body: JSON.stringify({ fullname, email, password, phone, nid, gender, address, dob: new Date(dob).toISOString().slice(0, 10) })
         })
         .then(res => res.json())
-        .then(({ message, Error }) => {
+        .then(({ message, code, Error }) => {
             if(message) {
                 alert(message);
+                if(code) {
+                    localStorage.setItem("code", code);
+                    localStorage.setItem("email", email);
+                }
                 setFullname("");
                 setEmail("");
                 setPassword("");
@@ -37,6 +41,8 @@ const UserLogin = () => {
                 setAddress("");
                 setGender(0);
                 setDob("");
+                updateModal(false);
+                updateVerify(true);
             } else {
                 if(Error.errno === 1062) {
                     alert("Email already exists");
@@ -61,7 +67,6 @@ const UserLogin = () => {
                 alert(message);
                 setEmail1("");
                 setPassword1("");
-                console.log(data);
                 window.user = data;
                 localStorage.setItem("user-token", token);
                 updateModal(false);

@@ -8,15 +8,15 @@ const UserRouter = express.Router();
 UserRouter.post("/login", (req, res) => {
     const { email, password, admin } = req.body;
     let sql;
-    if(admin) sql = 'select id, fullname, email, password from user where email=? and admin=1';
-    else sql = 'select id, fullname, email, password from user where email=?';
+    if(admin) sql = 'select id, fullname, email, password, verified from user where email=? and admin=1';
+    else sql = 'select id, fullname, email, password, verified from user where email=?';
 
     connection.query(sql, [email], (error, result) => {
         if(result.length !== 1) res.json({ "Error": "Email not found in database" });
         else {
             bcrypt.compare(password, result[0].password, function(error, _res) {
                 if(_res) res.status(201).json({ "message": "Login successful",
-                 token: getToken(result[0], admin), data: { name: result[0].fullname, id: result[0].id } });
+                 token: getToken(result[0], admin), data: { name: result[0].fullname, id: result[0].id, verified: result[0].verified === 1 } });
                 else res.json({ "Error": "Password did not match" });
             });
         }
@@ -32,12 +32,20 @@ UserRouter.post("/register", (req, res) => {
             [fullname, email, hash, 0, phone, nid, dob, address, gender, 0], (error, _res) => {
                 if(error) res.status(409).json({ "Error": error });
                 else {
-                    res.status(201).json({ "message": "Successfully registered" });
-                    send(fullname, email, Math.floor(Math.random() * 899999 + 100000));
+                    const code = Math.floor(Math.random() * 899999 + 100000);
+                    res.status(201).json({ "message": "You have been registered successfully.", "code": code });
+                    send(fullname, email, code);
                 }
             });
         }
     });
+});
+
+UserRouter.get("/:email", (req, res) => {
+    connection.query('update user set verified = 1 where email = ?', [req.params.email], (error, result) => {
+        if(error) res.json({ "Error": error });
+        else res.status(203).json({ "data": result });
+    })
 });
 
 module.exports = UserRouter;
