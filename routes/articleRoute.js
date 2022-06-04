@@ -5,9 +5,9 @@ const connection = require("../utils/connection");
 const ArticleRouter = express.Router();
 
 ArticleRouter.get("/", isAuth, isAdmin, (req, res) => {
-    const { page, limit } = req.query;
-    connection.query('select id, title, status, published, top from article where status <> 2 order by published desc limit ? offset ?',
-    [parseInt(limit), (parseInt(page)-1)*parseInt(limit)],
+    const { page, limit, id } = req.query;
+    connection.query('select id, title, status, published, top from article where status <> 2 and published_by = ? order by published desc limit ? offset ?',
+    [parseInt(id), parseInt(limit), (parseInt(page)-1)*parseInt(limit)],
     (error, result) => {
         if(error) res.json({ "Error": error });
         else res.status(200).json({ "data": result });
@@ -24,13 +24,13 @@ ArticleRouter.get("/:id", isAuth, isAdmin, (req, res) => {
 });
 
 ArticleRouter.post("/", isAuth, isAdmin, (req, res) => {
-    const { title, body, cover, category_id, featured, status } = req.body;
+    const { title, body, cover, category_id, featured, status, published_by } = req.body;
     connection.query(
-        'insert into article (title, body, cover, category_id, featured, status) values (?,?,?,?,?,?)',
-        [title, body, cover, category_id, featured, status], 
+        'insert into article (title, body, cover, category_id, featured, status, published_by) values (?,?,?,?,?,?,?)',
+        [title, body, cover, category_id, featured, status, published_by], 
         (error, result) => {
-        if(error) res.json({ "Error": error });
-        else res.status(201).json({ "message": result });
+            if(error) res.json({ "Error": error });
+            else res.status(201).json({ "message": result });
     });
 });
 

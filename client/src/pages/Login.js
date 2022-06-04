@@ -22,10 +22,11 @@ const Login = () => {
         })
         .then(res => res.json())
         .then(res => {
-            const { Error, message, token } = res;
+            const { Error, data, token } = res;
             if(!Error) {
                 Auth.authenticateUser(token);
                 window.location = "/admin";
+                localStorage.setItem("admin-id", parseInt(data.id)); 
             } else {
                 alert(Error);
             }

@@ -42,10 +42,11 @@ const AddArticle = () => {
     const submitData = () => {
         if(!title || !cover || !body) return;
 
+        const pub = localStorage.getItem("admin-id");
         const method = slug ? 'PATCH' : 'POST';
         const url = slug ? `http://localhost:5000/api/v1/articles/${slug}` : 'http://localhost:5000/api/v1/articles';
         const data = {
-            title, body, cover, featured: featured ? 1 : 0, status, category_id: category
+            title, body, cover, featured: featured ? 1 : 0, status, category_id: category, published_by: pub
         };
         
         fetch(url, {

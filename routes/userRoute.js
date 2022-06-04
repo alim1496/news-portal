@@ -1,14 +1,22 @@
 const express = require("express");
 const bcrypt = require("bcrypt");
 const connection = require("../utils/connection");
-const { getToken } = require("../utils/auth");
+const { getToken, isAuth, isAdmin } = require("../utils/auth");
 const send = require("../utils/sendMail");
 const UserRouter = express.Router();
+
+UserRouter.get("/", isAuth, isAdmin, (req, res) => {
+    const sql = 'select id, fullname, email, verified, staff, mobile from user where admin = 0';
+    connection.query(sql, (error, result) => {
+        if(error) res.json({ "Error": error });
+        else res.status(200).json({ "data": result });
+    });
+});
 
 UserRouter.post("/login", (req, res) => {
     const { email, password, admin } = req.body;
     let sql;
-    if(admin) sql = 'select id, fullname, email, password, verified from user where email=? and admin=1';
+    if(admin) sql = 'select id, fullname, email, password, verified, staff from user where email=? and staff=1';
     else sql = 'select id, fullname, email, password, verified from user where email=?';
 
     connection.query(sql, [email], (error, result) => {
@@ -45,7 +53,14 @@ UserRouter.get("/:email", (req, res) => {
     connection.query('update user set verified = 1 where email = ?', [req.params.email], (error, result) => {
         if(error) res.json({ "Error": error });
         else res.status(203).json({ "data": result });
-    })
+    });
+});
+
+UserRouter.patch("/:id", (req, res) => {
+    connection.query('update user set staff = ? where id = ?', [req.body.staff, req.params.id], (error, result) => {
+        if(error) res.json({ "Error": error });
+        else res.status(203).json({ "data": result });
+    });
 });
 
 module.exports = UserRouter;

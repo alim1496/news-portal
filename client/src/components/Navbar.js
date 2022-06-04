@@ -5,6 +5,7 @@ import Auth from "../utils/auth";
 const Navbar = () => {
     const doLogout = () => {
         Auth.deauthenticateUser();
+        localStorage.removeItem("admin-id");
         window.location = "/admin/login";
     };
 
@@ -36,6 +37,9 @@ const Navbar = () => {
                         <li>
                             <Link to="/admin/videos" className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0">Videos</Link>
                         </li>
+                        {localStorage.getItem("admin-id") === "1" && (<li>
+                            <Link to="/admin/users" className="block py-2 pr-4 pl-3 text-gray-700 border-b border-gray-100 hover:bg-gray-50 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0">Users</Link>
+                        </li>)}
                     </ul>
                 </div>
             </div>

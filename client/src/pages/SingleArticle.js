@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useParams, Link } from "react-router-dom";
 import { parseDate, slugify } from "../utils/helper";
+import { UserContext } from "../App";
 import angry from "../assets/angry.png";
 import crying from "../assets/crying.png";
 import like from "../assets/like.png";
@@ -18,6 +19,7 @@ const SingleArticle = () => {
     const [emo, setEmo] = useState(0);
     const [reactID, setReactID] = useState(0);
     const { articleID } = useParams();
+    const { open, updateModal, verify, updateVerify } = useContext(UserContext);
 
     useEffect(() => {
         setArticle({});
@@ -48,7 +50,7 @@ const SingleArticle = () => {
 
     const submitComment = () => {
         if(comment === "") return;
-        if(!window.user || window.user === null) alert("Please Login First");
+        if(!window.user || window.user === null) updateModal(true);
         
         fetch("http://localhost:5000/api/v1/comments", {
             method: "POST",
@@ -84,7 +86,7 @@ const SingleArticle = () => {
     };
 
     const submitReaction = (re) => {
-        if(!window.user || window.user === null) alert("Please Login First");
+        if(!window.user || window.user === null) updateModal(true);
         const result = re === emo ? 0 : re;
         const method = emo !== 0 || result === 0 ? 'PATCH' : 'POST';
         const url = method === 'POST' ? "http://localhost:5000/api/v1/reactions" : `http://localhost:5000/api/v1/reactions/${reactID}`;

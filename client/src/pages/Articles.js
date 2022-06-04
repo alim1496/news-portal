@@ -21,7 +21,8 @@ const Articles = () => {
     };
 
     const mainFetch = (_page) => {
-        fetch(`http://localhost:5000/api/v1/articles?page=${_page}&limit=${limit}`, {
+        const pub = localStorage.getItem("admin-id");
+        fetch(`http://localhost:5000/api/v1/articles?page=${_page}&limit=${limit}&id=${pub}`, {
             headers: { "Authorization": `Bearer ${Auth.getToken()}` }
         })
         .then(res => res.json())
@@ -66,7 +67,7 @@ const Articles = () => {
                     <div key={index} className="bg-white border border-gray-400 rounded px-4 py-4 mb-4">
                         <p>{article.title}</p>
                         <div className="flex items-center">
-                            <TimeAgo date={article.published} />
+                            <TimeAgo date={article.published} live={false} />
                             {article.status === 0 ? <p className="ml-4 text-blue-700">Pending</p> : <p className="ml-4 text-green-700">Published</p>}
                             <Link to={`/admin/add/article/${article.id}`} target="_blank" className="ml-4 font-medium">Edit</Link>
                             <button type="button" className="ml-4 text-red-700 font-medium" onClick={() => deleteData(article.id)}>Delete</button>

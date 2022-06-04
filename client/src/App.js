@@ -19,6 +19,7 @@ import Home from "./pages/Home";
 import HomeVideos from "./pages/HomeVideos";
 import Login from "./pages/Login";
 import SingleArticle from "./pages/SingleArticle";
+import Users from "./pages/Users";
 import Videos from "./pages/Videos";
 import Auth from "./utils/auth";
 
@@ -67,6 +68,9 @@ const App = () => {
           </Route>
           <Route path="/admin/videos" exact element={<ProtectedRoute />}>
             <Route path="/admin/videos" exact element={ <Videos />} />
+          </Route>
+          <Route path="/admin/users" exact element={<ProtectedRoute />}>
+            <Route path="/admin/users" exact element={ <Users />} />
           </Route>
         </Routes>
       </BrowserRouter>
