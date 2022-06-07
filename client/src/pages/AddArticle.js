@@ -4,16 +4,19 @@ import Auth from "../utils/auth";
 
 const AddArticle = () => {
     const [categories, setCategories] = useState([]);
+    const [divisions, setDivisions] = useState([]);
     const [title, setTitle] = useState("");
     const [cover, setCover] = useState("");
     const [body, setBody] = useState("");
     const [category, setCategory] = useState(0);
+    const [division, setDivision] = useState(0);
     const [status, setStatus] = useState(0);
     const [featured, setFeatured] = useState(false);
     const { slug } = useParams();
 
     useEffect(() => {
         fetchCategories();
+        fetchDivisions();
         if(slug) fetchArchive();
     }, [slug]);
 
@@ -39,6 +42,14 @@ const AddArticle = () => {
         .then(res => setCategories(res.data));
     };
 
+    const fetchDivisions = () => {
+        fetch("http://localhost:5000/api/v1/categories/divisions", {
+            headers: { "Authorization": `Bearer ${Auth.getToken()}` }
+        })
+        .then(res => res.json())
+        .then(res => setDivisions(res.data));
+    };
+
     const submitData = () => {
         if(!title || !cover || !body) return;
 
@@ -46,7 +57,7 @@ const AddArticle = () => {
         const method = slug ? 'PATCH' : 'POST';
         const url = slug ? `http://localhost:5000/api/v1/articles/${slug}` : 'http://localhost:5000/api/v1/articles';
         const data = {
-            title, body, cover, featured: featured ? 1 : 0, status, category_id: category, published_by: pub
+            title, body, cover, featured: featured ? 1 : 0, status, category_id: category, published_by: pub, division_id: division
         };
         
         fetch(url, {
@@ -76,6 +87,7 @@ const AddArticle = () => {
             alert("Could not add article");
         } else {
             setCategory(0);
+            setDivision(0);
             setTitle("");
             setBody("");
             setCover("");
@@ -116,6 +128,14 @@ const AddArticle = () => {
                     <label htmlFor="category" className="block mb-2 text-lg font-medium text-gray-900">Category</label>
                     <select onChange={e => setCategory(e.target.value)} value={category} className="form-select block px-3 py-1.5 border border-solid border-gray-300">
                         {categories && categories.map((cat) => (
+                            <option value={cat.id}>{cat.name}</option>
+                        ))}
+                    </select>
+                </div>
+                <div className="mb-6">
+                    <label htmlFor="division" className="block mb-2 text-lg font-medium text-gray-900">Division</label>
+                    <select onChange={e => setDivision(e.target.value)} value={division} className="form-select block px-3 py-1.5 border border-solid border-gray-300">
+                        {divisions && divisions.map((cat) => (
                             <option value={cat.id}>{cat.name}</option>
                         ))}
                     </select>

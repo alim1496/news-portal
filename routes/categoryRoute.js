@@ -10,6 +10,13 @@ CategoryRouter.get("/", isAuth, isAdmin, (req, res) => {
     });
 });
 
+CategoryRouter.get("/divisions", isAuth, isAdmin, (req, res) => {
+    connection.query('select * from division order by id', (error, result) => {
+        if(error) res.json({ "Error": error });
+        else res.status(200).json({ "data": result });
+    });
+});
+
 CategoryRouter.post("/", isAuth, isAdmin, (req, res) => {
     connection.query('insert into category (name) values (?)', [req.body.name], (error, result) => {
         if(error) res.json({ "Error": error });
