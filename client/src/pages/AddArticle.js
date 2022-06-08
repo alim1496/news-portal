@@ -31,6 +31,7 @@ const AddArticle = () => {
             setBody(data.body);
             setStatus(data.status);
             setCategory(data.category_id);
+            setDivision(data.division_id);
         });
     };
 

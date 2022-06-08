@@ -24,10 +24,10 @@ ArticleRouter.get("/:id", isAuth, isAdmin, (req, res) => {
 });
 
 ArticleRouter.post("/", isAuth, isAdmin, (req, res) => {
-    const { title, body, cover, category_id, featured, status, published_by } = req.body;
+    const { title, body, cover, category_id, featured, status, published_by, division_id } = req.body;
     connection.query(
-        'insert into article (title, body, cover, category_id, featured, status, published_by) values (?,?,?,?,?,?,?)',
-        [title, body, cover, category_id, featured, status, published_by], 
+        'insert into article (title, body, cover, category_id, featured, status, published_by, division_id) values (?,?,?,?,?,?,?,?)',
+        [title, body, cover, category_id, featured, status, published_by, division_id], 
         (error, result) => {
             if(error) res.json({ "Error": error });
             else res.status(201).json({ "message": result });
