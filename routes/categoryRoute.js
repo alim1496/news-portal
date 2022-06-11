@@ -32,7 +32,7 @@ CategoryRouter.delete("/:id", isAuth, isAdmin, (req, res) => {
 });
 
 CategoryRouter.get("/feed", (req, res) => {
-    connection.query('select id, name from category order by weight desc', (error, result) => {
+    connection.query('select id, name from category where id < 10 order by weight desc', (error, result) => {
         if(error) res.json({ "Error": error });
         else res.status(200).json({ "data": result });
     });

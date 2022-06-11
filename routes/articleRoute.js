@@ -116,6 +116,33 @@ ArticleRouter.get("/home/feed", (req, res) => {
     });
 });
 
+ArticleRouter.get("/home/divisions", (req, res) => {
+    let sql = "select id, title, cover, published from article where status = 1 and category_id = 15 and division_id = 1 order by published desc limit 4;";
+    sql += "select id, title, cover, published from article where status = 1 and category_id = 15 and division_id = 2 order by published desc limit 4;";
+    sql += "select id, title, cover, published from article where status = 1 and category_id = 15 and division_id = 3 order by published desc limit 4;";
+    sql += "select id, title, cover, published from article where status = 1 and category_id = 15 and division_id = 4 order by published desc limit 4;";
+    sql += "select id, title, cover, published from article where status = 1 and category_id = 15 and division_id = 5 order by published desc limit 4;";
+    sql += "select id, title, cover, published from article where status = 1 and category_id = 15 and division_id = 6 order by published desc limit 4;";
+    sql += "select id, title, cover, published from article where status = 1 and category_id = 15 and division_id = 7 order by published desc limit 4;";
+    sql += "select id, title, cover, published from article where status = 1 and category_id = 15 and division_id = 8 order by published desc limit 4;";
+
+    connection.query(sql, (error, result) => {
+        if(error) res.json({ "Error": error });
+        else res.status(200).json({ data: result });
+    });
+});
+
+ArticleRouter.get("/home/division/:id", (req, res) => {
+    const { page, limit } = req.query;
+    connection.query(
+        'select id, title, cover, published from article where category_id = 15 and status = 1 and division_id = ? order by published desc limit ? offset ?',
+        [req.params.id, parseInt(limit), (parseInt(page)-1)*parseInt(limit)], (error, result) => {
+            if(error) res.json({ "Error": error });
+            else res.status(200).json({ "data": result });
+        }
+    );
+});
+
 ArticleRouter.get("/panel/dashboard", isAuth, isAdmin, (req, res) => {
     let sql = "select count(*) as জাতীয় from article where status = 1 and category_id = 7;";
     sql += "select count(*) as আন্তর্জাতিক from article where status = 1 and category_id = 1;";

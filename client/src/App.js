@@ -15,6 +15,7 @@ import Articles from "./pages/Articles";
 import Categories from "./pages/Categories";
 import CategoryArticles from "./pages/CategoryArticles";
 import Dashboard from "./pages/Dashboard";
+import DivisionArticles from "./pages/DivisionArticles";
 import Home from "./pages/Home";
 import HomeVideos from "./pages/HomeVideos";
 import Login from "./pages/Login";
@@ -48,6 +49,7 @@ const App = () => {
           <Route path="/" element={ <Home />} />
           <Route path="/latest" element={ <CategoryArticles /> } />
           <Route path="/videos" element={ <HomeVideos /> } />
+          <Route path="/divisions" element={ <DivisionArticles /> } />
           <Route path="/category/:catID/:catName" element={ <CategoryArticles /> } />
           <Route path="/article/:articleID/:articleTitle" element={ <SingleArticle /> } />
           <Route path="/admin/login" element={ <Login />} />

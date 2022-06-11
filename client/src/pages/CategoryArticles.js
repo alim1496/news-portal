@@ -52,7 +52,7 @@ const CategoryArticles = () => {
                 {articles && articles.map((article, index) => (
                     <div key={index} className="border mr-4 mb-4 w-1/5 bg-white">
                         <Link to={`/article/${article.id}/${slugify(article.title)}`}>
-                            <img src={article.cover} alt="cover" />
+                            <img src={article.cover} alt="cover" style={{ height: 205 }} />
                             <h4 className="px-2 py-2 text-base font-mono font-semibold">{article.title}</h4>
                         </Link>
                     </div>

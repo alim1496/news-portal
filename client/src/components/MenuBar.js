@@ -54,6 +54,9 @@ const MenuBar = () => {
                         </span>
                     ))}
                     <span className="mr-4">
+                        <Link className="font-medium font-mono hover:text-blue-700" to="/divisions">সারাদেশ</Link>
+                    </span>
+                    <span className="mr-4">
                         <Link className="font-medium font-mono hover:text-blue-700" to="/videos">ভিডিও</Link>
                     </span>
                 </>
