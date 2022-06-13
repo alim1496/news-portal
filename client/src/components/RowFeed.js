@@ -2,10 +2,10 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { slugify } from "../utils/helper";
 
-const RowFeed = ({ data, title, _style, containerStyle, titleStyle }) => {
+const RowFeed = ({ data, title, _style, containerStyle, redirect, _divID }) => {
     return (
         <div className="mb-4 font-mono">
-            <h3 className={`text-lg font-semibold mb-2 ${titleStyle}`}>{title}</h3>
+            {redirect ? <Link className="text-lg font-semibold mb-20 ml-122" style={{ marginLeft: '122px' }} to={`/division/${_divID}/${title}`}>{title}</Link> : <h3 className="text-lg font-semibold mb-2">{title}</h3>}
             <div className={`flex ${containerStyle}`}>
                 {data && data.map((other, index) => (
                     <div key={index} className="mb-4 mr-4 border bg-white w-1/5">

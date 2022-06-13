@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import Footer from "../components/Footer";
 import RowFeed from "../components/RowFeed";
 
 const DivisionArticles = () => {
@@ -21,9 +22,11 @@ const DivisionArticles = () => {
                     title={divisions[index]} 
                     _style={{ height: 205 }} 
                     containerStyle="flex-wrap justify-center" 
-                    titleStyle="text-center" 
+                    redirect={true}
+                    _divID={index+1}
                 />
             ))}
+            <Footer />
         </div>
     );
 };
