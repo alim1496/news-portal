@@ -61,7 +61,7 @@ const Articles = () => {
     };
 
     return (
-        <div className="container mx-auto my-10 bg-blue-50">
+        <div className="container mx-auto my-10 bg-blue-50 px-8">
             <div className="my-10">
                 {articles && articles.map((article, index) => (
                     <div key={index} className="bg-white border border-gray-400 rounded px-4 py-4 mb-4">

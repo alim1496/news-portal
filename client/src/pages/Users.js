@@ -35,7 +35,7 @@ const Users = () => {
     }
 
     return (
-        <div className="container mx-auto">
+        <div className="container mx-auto px-8">
             <table className="mx-auto my-10 table-auto">
                 <thead>
                     <tr>

@@ -63,7 +63,7 @@ const Videos = () => {
     };
 
     return (
-        <div className="container mx-auto my-10">
+        <div className="container mx-auto my-10 px-8">
             <form>
                 <label className="pr-4 font-medium" htmlFor="name">Title</label>
                 <input

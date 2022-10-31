@@ -11,7 +11,7 @@ const Navbar = () => {
 
     return (
         <nav className="bg-blue-50 border-gray-200 py-2.5 rounded">
-            <div className="container flex flex-wrap justify-between items-center mx-auto">
+            <div className="container flex flex-wrap justify-between items-center mx-auto px-8">
                 <Link to="/admin" className="flex items-center">
                     <span className="self-center text-2xl font-bold whitespace-nowrap">Dashboard</span>
                 </Link>

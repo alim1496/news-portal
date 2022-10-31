@@ -15,7 +15,7 @@ const Dashboard = () => {
     }, []);
 
     return (
-        <div className="container mx-auto">
+        <div className="container mx-auto px-8">
             {/* Your token is {Auth.getToken()} */}
             {Array.isArray(data) && data.length > 0 && (
                 <div className="flex flex-wrap my-10 font-mono">

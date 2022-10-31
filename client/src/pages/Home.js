@@ -55,7 +55,7 @@ const Home = () => {
     }, []);
 
     return (
-        <div className="container mx-auto">
+        <div className="container mx-auto px-8">
             <div className="flex my-12">
                 {latest.length > 0 && (
                     <div className="w-1/3 mr-4">

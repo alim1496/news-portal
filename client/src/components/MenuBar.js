@@ -21,7 +21,7 @@ const MenuBar = () => {
     };
 
     return (
-        <div id="menu-bar" className="container mx-auto bg-white text-center py-2 bg-blue-50">
+        <div id="menu-bar" className="container mx-auto bg-white text-center py-2 bg-blue-50 px-8">
             <div className="flex justify-between items-center">
                 <span>{parseToday()}</span>
                 <Link to="/">
