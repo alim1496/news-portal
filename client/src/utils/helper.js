@@ -2,6 +2,8 @@ const months = ["জানুয়ারি", "ফেব্রুয়ারি", "�
 
 const dates = ["০", "১", "২", "৩", "৪", "৫", "৬", "৭", "৮", "৯"];
 
+export const roles = ["", "User", "Author", "Editor", "Admin"];
+
 export const parseDate = (date) => {
     try {
         const d = date.split("T")[0];

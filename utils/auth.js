@@ -1,11 +1,11 @@
 const jwt = require("jsonwebtoken");
 
-const getToken = (user, admin) => {
-    const { fullname, email } = user;
+const getToken = (user) => {
+    const { fullname, email, role } = user;
     return jwt.sign({
         fullname,
         email,
-        admin
+        role
     },
     "abc-123-secret-7612",
     {
@@ -32,11 +32,29 @@ const isAuth = (req, res, next) => {
 
 const isAdmin = (req, res, next) => {
     const { user } = req;
-    if (!user || !user.admin) {
-        res.status(403).send({ message: "Admin role required" });
-    } else {{
+    if (!user || user.role < 2) {
+        res.status(403).send({ message: "Do not have required access" });
+    } else {
         next();
-    }}
+    }
 };
 
-module.exports = { getToken, isAuth, isAdmin };
+const isEditor = (req, res, next) => {
+    const { user } = req;
+    if (!user || user.role < 3) {
+        res.status(403).send({ message: "Do not have required access" });
+    } else {
+        next();
+    }
+};
+
+const isSuperAdmin = (req, res, next) => {
+    const { user } = req;
+    if (!user || user.role < 4) {
+        res.status(403).send({ message: "Do not have required access" });
+    } else {
+        next();
+    }
+};
+
+module.exports = { getToken, isAuth, isAdmin, isSuperAdmin, isEditor };

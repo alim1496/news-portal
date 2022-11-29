@@ -42,7 +42,7 @@ const UserLogin = () => {
                 setGender(0);
                 setDob("");
                 updateModal(false);
-                updateVerify(true);
+                //updateVerify(true);
             } else {
                 if(Error.errno === 1062) {
                     alert("Email already exists");

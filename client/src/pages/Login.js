@@ -26,7 +26,8 @@ const Login = () => {
             if(!Error) {
                 Auth.authenticateUser(token);
                 window.location = "/admin";
-                localStorage.setItem("admin-id", parseInt(data.id)); 
+                localStorage.setItem("admin-id", parseInt(data.id));
+                localStorage.setItem("admin-role", parseInt(data.role));
             } else {
                 alert(Error);
             }

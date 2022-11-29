@@ -22,7 +22,8 @@ const Articles = () => {
 
     const mainFetch = (_page) => {
         const pub = localStorage.getItem("admin-id");
-        fetch(`http://localhost:5000/api/v1/articles?page=${_page}&limit=${limit}&id=${pub}`, {
+        const role = localStorage.getItem("admin-role");
+        fetch(`http://localhost:5000/api/v1/articles?page=${_page}&limit=${limit}&id=${pub}&role=${role}`, {
             headers: { "Authorization": `Bearer ${Auth.getToken()}` }
         })
         .then(res => res.json())
@@ -68,11 +69,14 @@ const Articles = () => {
                         <p>{article.title}</p>
                         <div className="flex items-center">
                             <TimeAgo date={article.published} live={false} />
-                            {article.status === 0 ? <p className="ml-4 text-blue-700">Pending</p> : <p className="ml-4 text-green-700">Published</p>}
+                            {article.status === 0 && <p className="ml-4 text-blue-700">Pending</p>}
+                            {article.status === 1 && <p className="ml-4 text-green-700">Published</p>}
+                            {article.status === 2 && <p className="ml-4 text-red-700">Rejected</p>}
                             <Link to={`/admin/add/article/${article.id}`} target="_blank" className="ml-4 font-medium">Edit</Link>
-                            <button type="button" className="ml-4 text-red-700 font-medium" onClick={() => deleteData(article.id)}>Delete</button>
+                            {parseInt(localStorage.getItem("admin-role")) === 4 && <button type="button" className="ml-4 text-red-700 font-medium" onClick={() => deleteData(article.id)}>Delete</button>}
+                            {parseInt(localStorage.getItem("admin-role")) > 2 && (<>
                             <input checked={article.top === 1 ? true : false} onChange={(e) => changeTop(e, article.id)} type="checkbox" id="checkTop" className="bg-gray-50 mr-2 ml-4 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block"/>
-                            <label htmlFor="checkTop" className="block text-lg text-gray-900">Top</label>
+                            <label htmlFor="checkTop" className="block text-lg text-gray-900">Top</label> </>)}
                         </div>
                     </div>
                 ))}

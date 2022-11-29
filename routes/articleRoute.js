@@ -1,13 +1,17 @@
 const express = require("express");
-const { isAuth, isAdmin } = require("../utils/auth");
-const { off } = require("../utils/connection");
+const { isAuth, isAdmin, isSuperAdmin, isEditor } = require("../utils/auth");
 const connection = require("../utils/connection");
 const ArticleRouter = express.Router();
 
 ArticleRouter.get("/", isAuth, isAdmin, (req, res) => {
-    const { page, limit, id } = req.query;
-    connection.query('select id, title, status, published, top from article where status <> 2 and published_by = ? order by published desc limit ? offset ?',
-    [parseInt(id), parseInt(limit), (parseInt(page)-1)*parseInt(limit)],
+    const { page, limit, id, role } = req.query;
+    let sql;
+    if(role === 2) {
+        sql = 'select id, title, status, published, top from article where published_by = '+parseInt(id)+' order by published desc limit '+parseInt(limit)+' offset '+(parseInt(page)-1)*parseInt(limit);
+    } else if(role > 2) {
+        sql = 'select id, title, status, published, top from article order by published desc limit '+parseInt(limit)+' offset '+(parseInt(page)-1)*parseInt(limit);
+    }
+    connection.query(sql,
     (error, result) => {
         if(error) res.json({ "Error": error });
         else res.status(200).json({ "data": result });
@@ -34,9 +38,9 @@ ArticleRouter.post("/", isAuth, isAdmin, (req, res) => {
     });
 });
 
-ArticleRouter.delete("/:id", isAuth, isAdmin, (req, res) => {
-    connection.query('update article set status = 2 where id = ?', [req.params.id], (error, result) => {
-        if(error) res.json({ "Error": error });
+ArticleRouter.delete("/:id", isAuth, isSuperAdmin, (req, res) => {
+    connection.query('delete from article where id = ?', [req.params.id], (error, result) => {
+        if(error) res.status(403).json({ "Error": error });
         else res.status(201).json({ "message": result });
     });
 });
@@ -50,7 +54,7 @@ ArticleRouter.patch("/:id", isAuth, isAdmin, (req, res) => {
     });
 });
 
-ArticleRouter.patch("/top/:id", isAuth, isAdmin, (req, res) => {
+ArticleRouter.patch("/top/:id", isAuth, isEditor, (req, res) => {
     connection.query('update article set top = ? where id = ?', [req.body.top, req.params.id], (error, result) => {
         if(error) res.json({ "Error": error });
         else res.status(201).json({ "message": result });

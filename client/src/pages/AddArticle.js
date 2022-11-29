@@ -26,6 +26,7 @@ const AddArticle = () => {
         })
         .then(res => res.json())
         .then(({ data }) => {
+            console.log(data.status);
             setTitle(data.title);
             setCover(data.cover);
             setBody(data.body);
@@ -79,7 +80,7 @@ const AddArticle = () => {
             alert("Could not update article");
         } else {
             alert("Article updated successfully");
-            window.location.reload();
+            window.location = "/admin/articles";
         }
     };
 
@@ -145,18 +146,22 @@ const AddArticle = () => {
                     <label htmlFor="body" className="block mb-2 text-lg font-medium text-gray-900">Body</label>
                     <textarea value={body} onChange={e => setBody(e.target.value)} type="text" rows="20" id="body" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Enter article body" required/>
                 </div>
-                <div className="mb-6">
-                    <label className="block mb-2 text-lg font-medium text-gray-900">Status</label>
-                    <select onChange={e => setStatus(e.target.value)} value={status} className="form-select block px-3 py-1.5 border border-solid border-gray-300">
-                        <option value={0}>Pending</option>
-                        <option value={1}>Published</option>
-                        <option value={2}>Deleted</option>
-                    </select>
-                </div>
-                <div className="mb-6 flex items-center">
-                    <input checked={featured} onChange={e => setFeatured(e.target.checked)} type="checkbox" id="checkfeature" className="bg-gray-50 mr-2 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block"/>
-                    <label htmlFor="checkfeature" className="block text-lg text-gray-900">Featured</label>
-                </div>
+                {parseInt(localStorage.getItem("admin-role")) > 2 && (
+                    <>
+                        <div className="mb-6">
+                            <label className="block mb-2 text-lg font-medium text-gray-900">Status</label>
+                            <select onChange={e => setStatus(e.target.value)} value={status} className="form-select block px-3 py-1.5 border border-solid border-gray-300">
+                                <option value={0}>Pending</option>
+                                <option value={1}>Published</option>
+                                <option value={2}>Rejected</option>
+                            </select>
+                        </div>
+                        <div className="mb-6 flex items-center">
+                            <input checked={featured} onChange={e => setFeatured(e.target.checked)} type="checkbox" id="checkfeature" className="bg-gray-50 mr-2 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block"/>
+                            <label htmlFor="checkfeature" className="block text-lg text-gray-900">Featured</label>
+                        </div>
+                    </>
+                )}
                 <button onClick={submitData} type="button" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg px-10 py-2.5 mb-6">Submit</button>
             </form>
         </div>
