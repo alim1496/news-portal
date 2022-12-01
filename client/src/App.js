@@ -16,6 +16,7 @@ import Categories from "./pages/Categories";
 import CategoryArticles from "./pages/CategoryArticles";
 import Dashboard from "./pages/Dashboard";
 import DivisionArticles from "./pages/DivisionArticles";
+import History from "./pages/History";
 import Home from "./pages/Home";
 import HomeVideos from "./pages/HomeVideos";
 import Login from "./pages/Login";
@@ -75,6 +76,9 @@ const App = () => {
           </Route>
           <Route path="/admin/users" exact element={<ProtectedRoute />}>
             <Route path="/admin/users" exact element={ <Users />} />
+          </Route>
+          <Route path="/admin/history" exact element={<ProtectedRoute />}>
+            <Route path="/admin/history" exact element={ <History />} />
           </Route>
         </Routes>
       </BrowserRouter>

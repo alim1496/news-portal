@@ -6,9 +6,10 @@ const ArticleRouter = express.Router();
 ArticleRouter.get("/", isAuth, isAdmin, (req, res) => {
     const { page, limit, id, role } = req.query;
     let sql;
-    if(role === 2) {
+    const _role = parseInt(role);
+    if(_role === 2) {
         sql = 'select id, title, status, published, top from article where published_by = '+parseInt(id)+' order by published desc limit '+parseInt(limit)+' offset '+(parseInt(page)-1)*parseInt(limit);
-    } else if(role > 2) {
+    } else if(_role > 2) {
         sql = 'select id, title, status, published, top from article order by published desc limit '+parseInt(limit)+' offset '+(parseInt(page)-1)*parseInt(limit);
     }
     connection.query(sql,
@@ -111,8 +112,7 @@ ArticleRouter.get("/home/feed", (req, res) => {
     sql += "select id, title, cover, published from article where status = 1 and category_id = 9 order by published desc limit 5;";
     sql += "select id, title, cover, published from article where status = 1 and top = 1 order by published desc limit 5;";
     sql += "select id, title, cover, published from article where status = 1 order by published desc limit 5;";
-    //sql += `select * from history where date = ${_date};`;
-    sql += "select * from history;";
+    sql += `select * from history where status = 1 and date = ${_date};`;
 
     connection.query(sql, (error, result) => {
         if(error) res.json({ "Error": error });

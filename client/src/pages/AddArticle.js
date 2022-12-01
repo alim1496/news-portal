@@ -152,8 +152,9 @@ const AddArticle = () => {
                             <label className="block mb-2 text-lg font-medium text-gray-900">Status</label>
                             <select onChange={e => setStatus(e.target.value)} value={status} className="form-select block px-3 py-1.5 border border-solid border-gray-300">
                                 <option value={0}>Pending</option>
-                                <option value={1}>Published</option>
+                                {parseInt(localStorage.getItem("admin-role")) === 4 && <option value={1}>Published</option>}
                                 <option value={2}>Rejected</option>
+                                <option value={3}>Approved</option>
                             </select>
                         </div>
                         <div className="mb-6 flex items-center">

@@ -45,4 +45,11 @@ export const slugify = (url) => {
     url = url.replaceAll(":", "");
     url = url.replaceAll(" ", "-");
     return url;
-}
+};
+
+export const showEdit = (role, status) => {
+    if(role === 2 && status === 0) return true;
+    if(role === 3 && status !== 1) return true;
+    if(role === 4) return true;
+    return false;
+};

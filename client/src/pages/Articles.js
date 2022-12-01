@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import TimeAgo from "react-timeago";
 import Auth from "../utils/auth";
+import { showEdit } from "../utils/helper";
 
 var page = 1;
 
@@ -72,9 +73,10 @@ const Articles = () => {
                             {article.status === 0 && <p className="ml-4 text-blue-700">Pending</p>}
                             {article.status === 1 && <p className="ml-4 text-green-700">Published</p>}
                             {article.status === 2 && <p className="ml-4 text-red-700">Rejected</p>}
-                            <Link to={`/admin/add/article/${article.id}`} target="_blank" className="ml-4 font-medium">Edit</Link>
+                            {article.status === 3 && <p className="ml-4 text-yellow-700">Approved</p>}
+                            {showEdit(parseInt(localStorage.getItem("admin-role")), article.status) && <Link to={`/admin/add/article/${article.id}`} target="_blank" className="ml-4 font-medium">Edit</Link>}
                             {parseInt(localStorage.getItem("admin-role")) === 4 && <button type="button" className="ml-4 text-red-700 font-medium" onClick={() => deleteData(article.id)}>Delete</button>}
-                            {parseInt(localStorage.getItem("admin-role")) > 2 && (<>
+                            {parseInt(localStorage.getItem("admin-role")) > 2 && article.status === 1 && (<>
                             <input checked={article.top === 1 ? true : false} onChange={(e) => changeTop(e, article.id)} type="checkbox" id="checkTop" className="bg-gray-50 mr-2 ml-4 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block"/>
                             <label htmlFor="checkTop" className="block text-lg text-gray-900">Top</label> </>)}
                         </div>
