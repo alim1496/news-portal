@@ -28,4 +28,11 @@ HistoryRouter.patch("/:id", isAuth, isEditor, (req, res) => {
     });
 });
 
+HistoryRouter.delete("/:id", isAuth, isEditor, (req, res) => {
+    connection.query('delete from history where id = ?', [req.params.id], (error, result) => {
+        if(error) res.json({ "Error": error });
+        else res.status(201).json({ "message": result });
+    });
+});
+
 module.exports = HistoryRouter;

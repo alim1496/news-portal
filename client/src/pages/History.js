@@ -56,6 +56,22 @@ const History = () => {
         });
     };
 
+    const deleteHistory = (id) => {
+        if(parseInt(localStorage.getItem("admin-role")) < 4) {
+            alert("You are not allowed to delete history.");
+            return;
+        }
+        if(!confirm("Are you sure that you want to delete this history?")) return;
+        fetch(`http://localhost:5000/api/v1/history/${id}`, {
+            method: "DELETE",
+            headers: {'Content-Type': 'application/json', "Authorization": `Bearer ${Auth.getToken()}` }
+        })
+        .then(res => res.json())
+        .then(res => {
+            fetchData();
+        });
+    }
+
     return (
         <div className="container mx-auto my-10 px-8">
             <form>
@@ -104,7 +120,9 @@ const History = () => {
                             <td className="text-center p-4">
                                 <input type="checkbox" checked={history.status === 1} onChange={(e)=>updateHistory(e, history.id)} />
                             </td>
-                            <td className="text-center p-4">Delete</td>
+                            <td className="text-center p-4 text-red-700 hover:cursor-pointer" onClick={()=>deleteHistory(history.id)}>
+                                Delete
+                            </td>
                         </tr>
                     ))}
                 </tbody>
