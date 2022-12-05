@@ -16,8 +16,12 @@ const MenuBar = () => {
 
     const logout = () => {
         window.localStorage.removeItem("user-token");
+        localStorage.removeItem("email");
+        localStorage.removeItem("mobile");
+        localStorage.removeItem("dob");
+        localStorage.removeItem("nid");
         window.user = null;
-        window.location.reload();
+        window.location = "/";
     };
 
     return (
@@ -34,7 +38,7 @@ const MenuBar = () => {
                     )
                     : (
                         <div className="flex font-mono">
-                            <span className="mr-4">{window.user.name}</span>
+                            <Link className="mr-4" to="/profile">{window.user.name}</Link>
                             <span className="text-blue-500 cursor-pointer hover:text-blue-800" onClick={logout}>
                                 লগআউট
                             </span>

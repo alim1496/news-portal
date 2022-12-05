@@ -34,7 +34,7 @@ UserRouter.post("/login", (req, res) => {
 UserRouter.post("/register", (req, res) => {
     const { fullname, email, password, phone, nid, dob, address, gender } = req.body;
     bcrypt.hash(password, 10, function(err, hash) {
-        if(err) res.status(409).json({ "Error": error });
+        if(err) res.status(409).json({ "Error": err });
         else {
             connection.query('insert into user (fullname, email, password, admin, mobile, nid, dob, address, gender, role) values (?,?,?,?,?,?,?,?,?,?)',
             [fullname, email, hash, 0, phone, nid, dob, address, gender, 1], (error, _res) => {
@@ -49,10 +49,31 @@ UserRouter.post("/register", (req, res) => {
     });
 });
 
+UserRouter.get("/:id", isAuth, (req, res) => {
+    connection.query('SELECT fullname, email, mobile, nid, dob, address FROM user where id = ?', 
+    [req.params.id], (error, result) => {
+        if(error) res.json({ "Error": error });
+        else res.status(203).json({ "data": result[0] });
+    });
+});
+
 UserRouter.get("/:email", (req, res) => {
     connection.query('update user set verified = 1 where email = ?', [req.params.email], (error, result) => {
         if(error) res.json({ "Error": error });
         else res.status(203).json({ "data": result });
+    });
+});
+
+UserRouter.post("/:id/self", isAuth, (req, res) => {
+    bcrypt.hash(req.body.password, 10, function(err, hash) {
+        if(err) res.status(409).json({ "Error": err });
+        else {
+            connection.query('update user set fullname = ?, address = ?, password = ? where id = ?', 
+            [req.body.fullname, req.body.address, hash, req.params.id], (error, result) => {
+                if(error) res.json({ "Error": error });
+                else res.status(203).json({ "data": result });
+            });
+        }
     });
 });
 

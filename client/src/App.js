@@ -22,6 +22,7 @@ import HomeVideos from "./pages/HomeVideos";
 import Login from "./pages/Login";
 import SingleArticle from "./pages/SingleArticle";
 import SingleDivision from "./pages/SingleDivion";
+import UserProfile from "./pages/UserProfile";
 import Users from "./pages/Users";
 import Videos from "./pages/Videos";
 import Auth from "./utils/auth";
@@ -52,6 +53,7 @@ const App = () => {
           <Route path="/latest" element={ <CategoryArticles /> } />
           <Route path="/videos" element={ <HomeVideos /> } />
           <Route path="/divisions" element={ <DivisionArticles /> } />
+          <Route path="/profile" element={ <UserProfile /> } />
           <Route path="/division/:divID/:divName" element={ <SingleDivision /> } />
           <Route path="/category/:catID/:catName" element={ <CategoryArticles /> } />
           <Route path="/article/:articleID/:articleTitle" element={ <SingleArticle /> } />
